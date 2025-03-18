@@ -1,6 +1,3 @@
-// Mock data for the application
-
-// Location data with coordinates for Austria
 export const locations = [
   { id: "loc-1", name: "Vienna Central", address: "Stephansplatz 1, 1010 Vienna", lat: 48.2082, lng: 16.3738 },
   { id: "loc-2", name: "Vienna West", address: "Mariahilfer Straße 100, 1070 Vienna", lat: 48.1975, lng: 16.3447 },
