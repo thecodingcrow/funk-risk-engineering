@@ -1,1 +1,0 @@
-# funk-risk-engineering
