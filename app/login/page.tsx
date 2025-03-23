@@ -1,9 +1,8 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Briefcase, Lock, Mail, Eye, EyeOff, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,15 +10,33 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useAuth } from "@/lib/auth/AuthContext"
 
 export default function Login() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
+
+  const { login, isAuthenticated, isLoading } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
+  const [redirecting, setRedirecting] = useState(false)
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!isLoading && isAuthenticated && !redirecting) {
+      setRedirecting(true)
+
+      // Small delay to ensure all auth operations are complete
+      setTimeout(() => {
+        router.push(callbackUrl)
+      }, 100)
+    }
+  }, [isAuthenticated, isLoading, router, callbackUrl, redirecting])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,22 +47,29 @@ export default function Login() {
       return
     }
 
-    setIsLoading(true)
+    setIsSubmitting(true)
 
-    // Simulate authentication - in a real app, this would be an API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      const success = await login(email, password, rememberMe)
 
-      // For demo purposes, any login works
-      router.push("/dashboard")
+      if (!success) {
+        setError("Invalid email or password")
+      }
+    } catch (err) {
+      setError("An error occurred during login")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
-      // In a real app, you would check credentials and handle errors
-      // if (email === "demo@example.com" && password === "password") {
-      //   router.push('/dashboard')
-      // } else {
-      //   setError("Invalid email or password")
-      // }
-    }, 1500)
+  // If we're already authenticated and not loading, show a loading indicator while redirecting
+  if (!isLoading && isAuthenticated) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center p-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <p className="mt-4 text-muted-foreground">Redirecting to dashboard...</p>
+      </div>
+    )
   }
 
   return (
@@ -129,8 +153,8 @@ export default function Login() {
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign in"}
+              <Button type="submit" className="w-full" disabled={isSubmitting || isLoading}>
+                {isSubmitting ? "Signing in..." : "Sign in"}
               </Button>
 
               <p className="text-center text-sm text-muted-foreground">

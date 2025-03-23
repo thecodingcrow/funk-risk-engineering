@@ -19,6 +19,7 @@ import {
 } from "chart.js"
 import { cases, customers, locations } from "@/lib/data"
 import { Calendar, Users, Briefcase, Clock, Filter } from "lucide-react"
+import { useAuth } from "@/lib/auth/AuthContext"
 
 ChartJS.register(
   CategoryScale,
@@ -104,6 +105,7 @@ function calculateCaseStats() {
 type WidgetType = "caseActivity" | "caseStatus" | "casesByCustomer" | "casesByLocation" | "caseStats"
 
 export default function Dashboard() {
+  const { isLoading } = useAuth()
   const [timeframe, setTimeframe] = useState("30") // Default to 30 days
   const [activeWidgets, setActiveWidgets] = useState<WidgetType[]>([
     "caseActivity",
@@ -308,11 +310,110 @@ export default function Dashboard() {
 
   // Toggle widget visibility
   const toggleWidget = (widgetType: WidgetType) => {
-    if (activeWidgets.includes(widgetType)) {
-      setActiveWidgets(activeWidgets.filter((w) => w !== widgetType))
-    } else {
-      setActiveWidgets([...activeWidgets, widgetType])
+    setActiveWidgets((prevActiveWidgets) => {
+      if (prevActiveWidgets.includes(widgetType)) {
+        return prevActiveWidgets.filter((w) => w !== widgetType)
+      } else {
+        return [...prevActiveWidgets, widgetType]
+      }
+    })
+  }
+
+  const renderWidget = (widgetType: WidgetType) => {
+    if (!activeWidgets.includes(widgetType)) {
+      return null
     }
+
+    switch (widgetType) {
+      case "caseActivity":
+        return (
+          <div className="bg-card p-6 rounded-custom shadow">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Case Activity</h2>
+              <select
+                value={timeframe}
+                onChange={(e) => setTimeframe(e.target.value)}
+                className="bg-background text-foreground border border-input rounded-custom px-2 py-1"
+              >
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+                <option value="90">Last 90 days</option>
+                <option value="180">Last 180 days</option>
+                <option value="365">Last 365 days</option>
+              </select>
+            </div>
+            <Line data={caseActivityChartData} options={lineChartOptions} />
+          </div>
+        )
+      case "caseStats":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <StatCard
+              title="Total Cases"
+              value={caseStats.totalCases.toString()}
+              icon={<Briefcase className="h-8 w-8 text-blue-500" />}
+            />
+            <StatCard
+              title="Open Cases"
+              value={caseStats.openCases.toString()}
+              icon={<Calendar className="h-8 w-8 text-yellow-500" />}
+            />
+            <StatCard
+              title="Active Customers"
+              value={customers.length.toString()}
+              icon={<Users className="h-8 w-8 text-green-500" />}
+            />
+            <StatCard
+              title="Avg. Resolution Time"
+              value={`${caseStats.avgResolutionDays} days`}
+              icon={<Clock className="h-8 w-8 text-purple-500" />}
+            />
+          </div>
+        )
+      case "caseStatus":
+        return (
+          <div className="bg-card p-6 rounded-custom shadow">
+            <h2 className="text-xl font-semibold mb-4">Case Status Distribution</h2>
+            <div className="h-[300px] flex items-center justify-center">
+              <Doughnut data={caseStatusChartData} options={doughnutChartOptions} />
+            </div>
+          </div>
+        )
+      case "casesByCustomer":
+        return (
+          <div className="bg-card p-6 rounded-custom shadow">
+            <h2 className="text-xl font-semibold mb-4">Cases by Customer</h2>
+            <div className="h-[300px]">
+              <Bar data={casesByCustomerChartData} options={barChartOptions} />
+            </div>
+          </div>
+        )
+      case "casesByLocation":
+        return (
+          <div className="bg-card p-6 rounded-custom shadow">
+            <h2 className="text-xl font-semibold mb-4">Top 5 Locations by Case Volume</h2>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              {caseStats.casesByLocation.map((location, index) => (
+                <div key={index} className="bg-background p-4 rounded-custom text-center">
+                  <h3 className="font-medium text-sm mb-2">{location.name}</h3>
+                  <p className="text-2xl font-bold">{location.count}</p>
+                  <p className="text-xs text-muted-foreground">cases</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      default:
+        return null
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (
@@ -388,91 +489,16 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Case Activity Chart */}
-      {activeWidgets.includes("caseActivity") && (
-        <div className="bg-card p-6 rounded-custom shadow">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Case Activity</h2>
-            <select
-              value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value)}
-              className="bg-background text-foreground border border-input rounded-custom px-2 py-1"
-            >
-              <option value="7">Last 7 days</option>
-              <option value="30">Last 30 days</option>
-              <option value="90">Last 90 days</option>
-              <option value="180">Last 180 days</option>
-              <option value="365">Last 365 days</option>
-            </select>
-          </div>
-          <Line data={caseActivityChartData} options={lineChartOptions} />
-        </div>
-      )}
-
-      {/* Case Statistics Cards */}
-      {activeWidgets.includes("caseStats") && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <StatCard
-            title="Total Cases"
-            value={caseStats.totalCases.toString()}
-            icon={<Briefcase className="h-8 w-8 text-blue-500" />}
-          />
-          <StatCard
-            title="Open Cases"
-            value={caseStats.openCases.toString()}
-            icon={<Calendar className="h-8 w-8 text-yellow-500" />}
-          />
-          <StatCard
-            title="Active Customers"
-            value={customers.length.toString()}
-            icon={<Users className="h-8 w-8 text-green-500" />}
-          />
-          <StatCard
-            title="Avg. Resolution Time"
-            value={`${caseStats.avgResolutionDays} days`}
-            icon={<Clock className="h-8 w-8 text-purple-500" />}
-          />
-        </div>
-      )}
+      {renderWidget("caseActivity")}
+      {renderWidget("caseStats")}
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Case Status Distribution */}
-        {activeWidgets.includes("caseStatus") && (
-          <div className="bg-card p-6 rounded-custom shadow">
-            <h2 className="text-xl font-semibold mb-4">Case Status Distribution</h2>
-            <div className="h-[300px] flex items-center justify-center">
-              <Doughnut data={caseStatusChartData} options={doughnutChartOptions} />
-            </div>
-          </div>
-        )}
-
-        {/* Cases by Customer */}
-        {activeWidgets.includes("casesByCustomer") && (
-          <div className="bg-card p-6 rounded-custom shadow">
-            <h2 className="text-xl font-semibold mb-4">Cases by Customer</h2>
-            <div className="h-[300px]">
-              <Bar data={casesByCustomerChartData} options={barChartOptions} />
-            </div>
-          </div>
-        )}
+        {renderWidget("caseStatus")}
+        {renderWidget("casesByCustomer")}
       </div>
 
-      {/* Top 5 Locations */}
-      {activeWidgets.includes("casesByLocation") && (
-        <div className="bg-card p-6 rounded-custom shadow">
-          <h2 className="text-xl font-semibold mb-4">Top 5 Locations by Case Volume</h2>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {caseStats.casesByLocation.map((location, index) => (
-              <div key={index} className="bg-background p-4 rounded-custom text-center">
-                <h3 className="font-medium text-sm mb-2">{location.name}</h3>
-                <p className="text-2xl font-bold">{location.count}</p>
-                <p className="text-xs text-muted-foreground">cases</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {renderWidget("casesByLocation")}
 
       <div className="bg-card p-6 rounded-custom shadow">
         <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
