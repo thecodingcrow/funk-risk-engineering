@@ -45,7 +45,7 @@ export const customers = [
   },
   {
     id: 3,
-    name: "Globale Dienstleistungen GmbH",
+    name: "Globale Dienstleistungen",
     email: "support@globaledienstleistungen.com",
     phone: "+43 512 1122334",
     website: "www.globaledienstleistungen.com",

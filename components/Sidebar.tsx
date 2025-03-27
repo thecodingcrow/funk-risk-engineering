@@ -19,11 +19,11 @@ export default function Sidebar() {
 
   return (
     <nav className="w-64 bg-card text-card-foreground h-screen overflow-y-auto p-4 flex flex-col border-r border-border">
-      <h2 className="text-xl font-bold mb-8">FUNK Risikomanagement</h2>
+      <h2 className="text-xl font-bold mb-8 text-primary">FUNK Risikomanagement</h2>
 
       {/* User info */}
       {user && (
-        <div className="mb-6 p-3 bg-background rounded-md">
+        <div className="mb-6 p-3 bg-muted rounded-md">
           <p className="font-medium">{user.name}</p>
           <p className="text-sm text-muted-foreground">{user.email}</p>
         </div>
@@ -55,7 +55,7 @@ export default function Sidebar() {
 
         <button
           onClick={logout}
-          className="flex items-center justify-center w-full p-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
+          className="flex items-center justify-center w-full p-2 bg-muted text-muted-foreground rounded-md hover:bg-muted/90 transition-colors"
         >
           <LogOut className="mr-2 h-5 w-5" />
           Abmelden

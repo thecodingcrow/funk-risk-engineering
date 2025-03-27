@@ -49,7 +49,7 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
 
         <Link
           href={`/cases/${caseData.id}/report`}
-          className="flex items-center justify-center w-full p-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
+          className="flex items-center justify-center w-full p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
         >
           <FileText className="h-4 w-4 mr-2" />
           Vollständigen Bericht anzeigen
@@ -63,7 +63,7 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
 
           <button
             onClick={handleGenerateLink}
-            className="flex items-center justify-center w-full p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center w-full p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
             {linkCopied ? (
               <>
@@ -88,7 +88,7 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
         {caseData.status !== "Closed" && (
           <button
             onClick={handleCloseCase}
-            className="flex items-center justify-center w-full p-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors mt-4"
+            className="flex items-center justify-center w-full p-2 bg-success text-success-foreground rounded-md hover:bg-success/90 transition-colors mt-4"
           >
             <CheckCircle className="h-4 w-4 mr-2" />
             Fall abschließen

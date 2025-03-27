@@ -19,10 +19,21 @@ export default function Customers() {
   // Funktion zum Abrufen einer eindeutigen Farbe für jede Branche
   const getIndustryColor = (industry: string) => {
     const colors = {
-      Einzelhandel: "border-blue-500",
-      Technologie: "border-purple-500",
-      Dienstleistungen: "border-green-500",
-      default: "border-gray-500",
+      Einzelhandel: "border-secondary",
+      Technologie: "border-primary",
+      Dienstleistungen: "border-accent",
+      default: "border-muted",
+    }
+    return colors[industry as keyof typeof colors] || colors.default
+  }
+
+  // Funktion zum Abrufen einer eindeutigen Hintergrundfarbe für jede Branche
+  const getIndustryBgColor = (industry: string) => {
+    const colors = {
+      Einzelhandel: "bg-secondary/10 text-secondary",
+      Technologie: "bg-primary/10 text-primary",
+      Dienstleistungen: "bg-accent/10 text-accent",
+      default: "bg-muted text-muted-foreground",
     }
     return colors[industry as keyof typeof colors] || colors.default
   }
@@ -45,7 +56,7 @@ export default function Customers() {
       </div>
 
       {filteredCustomers.length === 0 ? (
-        <div className="bg-card p-8 rounded-custom shadow text-center">
+        <div className="bg-card p-8 rounded-custom shadow-md text-center border border-border">
           <Building className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
           <p className="mt-4 text-muted-foreground">Keine Kunden gefunden, die Ihrer Suche entsprechen.</p>
         </div>
@@ -55,13 +66,13 @@ export default function Customers() {
             const customerLocations = getCustomerLocations(customer.id)
             const customerCases = getCasesByCustomer(customer.id)
             const openCases = customerCases.filter((c) => c.status === "Offen").length
-            const industryColor = getIndustryColor(customer.industry)
+            const industryBgColor = getIndustryBgColor(customer.industry)
 
             return (
               <Link
                 key={customer.id}
                 href={`/customers/${customer.id}`}
-                className={`bg-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border-l-4 ${industryColor} transform hover:-translate-y-1`}
+                className="bg-card rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group border border-border/50 transform hover:-translate-y-1"
               >
                 <div className="p-6">
                   <div className="flex items-start justify-between">
@@ -70,12 +81,12 @@ export default function Customers() {
                         {customer.name}
                         <ChevronRight className="h-4 w-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </h2>
-                      <div className="inline-block px-2 py-1 bg-background rounded-full text-xs mt-2">
+                      <div className="inline-block px-2 py-1 bg-background rounded-full text-xs mt-2 border border-border/30">
                         {customer.industry}
                       </div>
                     </div>
-                    <div className={`p-3 rounded-full ${industryColor.replace("border", "bg")}/10`}>
-                      <Building className={`h-6 w-6 ${industryColor.replace("border", "text")}`} />
+                    <div className={`p-3 rounded-full ${industryBgColor}`}>
+                      <Building className="h-6 w-6" />
                     </div>
                   </div>
 
@@ -97,24 +108,24 @@ export default function Customers() {
 
                 <div className="bg-background p-4 border-t border-border">
                   <div className="grid grid-cols-3 gap-2 text-center">
-                    <div className="bg-card p-2 rounded-lg">
+                    <div className="bg-card p-2 rounded-lg border border-border/30">
                       <div className="flex items-center justify-center">
-                        <MapPin className="h-4 w-4 mr-1 text-muted-foreground" />
+                        <MapPin className="h-4 w-4 mr-1 text-primary" />
                         <span className="text-lg font-semibold">{customerLocations.length}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">Standorte</p>
                     </div>
-                    <div className="bg-card p-2 rounded-lg">
+                    <div className="bg-card p-2 rounded-lg border border-border/30">
                       <div className="flex items-center justify-center">
-                        <Briefcase className="h-4 w-4 mr-1 text-muted-foreground" />
+                        <Briefcase className="h-4 w-4 mr-1 text-primary" />
                         <span className="text-lg font-semibold">{customerCases.length}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">Fälle</p>
                     </div>
-                    <div className="bg-card p-2 rounded-lg">
+                    <div className="bg-card p-2 rounded-lg border border-border/30">
                       <div className="flex items-center justify-center">
                         <div
-                          className={`h-2 w-2 rounded-full mr-1 ${openCases > 0 ? "bg-blue-500" : "bg-green-500"}`}
+                          className={`h-2 w-2 rounded-full mr-1 ${openCases > 0 ? "bg-primary" : "bg-success"}`}
                         ></div>
                         <span className="text-lg font-semibold">{openCases}</span>
                       </div>

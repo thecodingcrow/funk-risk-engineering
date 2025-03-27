@@ -60,16 +60,16 @@ export default function Cases() {
   }
 
   // Status-Farbe abrufen
-  const getStatusColor = (status: string) => {
+  const getStatusClass = (status: string) => {
     switch (status) {
       case "Offen":
-        return "bg-blue-500 text-white"
+        return "status-pill-open"
       case "In Bearbeitung":
-        return "bg-yellow-500 text-black"
+        return "status-pill-in-progress"
       case "Abgeschlossen":
-        return "bg-green-500 text-white"
+        return "status-pill-closed"
       default:
-        return "bg-gray-500 text-white"
+        return "bg-muted text-muted-foreground"
     }
   }
 
@@ -87,7 +87,7 @@ export default function Cases() {
         </Link>
       </div>
 
-      <div className="bg-card p-4 rounded-custom shadow">
+      <div className="bg-card p-4 rounded-custom shadow-md border border-border/50">
         <div className="flex flex-col md:flex-row md:items-end gap-4">
           <div className="flex-1">
             <label htmlFor="search" className="block text-sm font-medium mb-1">
@@ -108,7 +108,7 @@ export default function Cases() {
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors flex items-center"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-custom hover:bg-primary/90 transition-colors flex items-center"
           >
             <Filter className="h-4 w-4 mr-1" />
             {showFilters ? "Filter ausblenden" : "Filter anzeigen"}
@@ -117,7 +117,7 @@ export default function Cases() {
           {(customerFilter || locationFilter || statusFilter || searchTerm) && (
             <button
               onClick={clearFilters}
-              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors"
+              className="px-4 py-2 bg-muted text-muted-foreground rounded-custom hover:bg-muted/90 transition-colors"
             >
               <X className="h-4 w-4 mr-1 inline-block" />
               Filter löschen
@@ -196,7 +196,7 @@ export default function Cases() {
       </div>
 
       {filteredCases.length === 0 ? (
-        <div className="bg-card p-8 rounded-custom shadow text-center">
+        <div className="bg-card p-8 rounded-custom shadow-md text-center border border-border/50">
           <p className="text-muted-foreground">Keine Fälle gefunden, die Ihren Filtern entsprechen.</p>
           <button onClick={clearFilters} className="mt-2 text-primary hover:underline">
             Filter löschen und alle Fälle anzeigen
@@ -212,7 +212,7 @@ export default function Cases() {
               <Link
                 key={caseItem.id}
                 href={`/cases/${caseItem.id}/full-view`}
-                className="block bg-card p-4 rounded-custom shadow hover:shadow-md transition-shadow border border-border/50 hover:border-border"
+                className="block bg-card p-4 rounded-custom shadow-md hover:shadow-lg transition-shadow border border-border/50 hover:border-primary/30"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between">
                   <div className="flex-grow">
@@ -230,9 +230,7 @@ export default function Cases() {
                   </div>
 
                   <div className="mt-2 sm:mt-0 flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                    <div className={`px-3 py-1 text-xs rounded-full font-medium ${getStatusColor(caseItem.status)}`}>
-                      {caseItem.status}
-                    </div>
+                    <div className={`status-pill ${getStatusClass(caseItem.status)}`}>{caseItem.status}</div>
                     <span className="text-xs text-muted-foreground whitespace-nowrap">
                       {new Date(caseItem.createdAt).toLocaleDateString()}
                     </span>

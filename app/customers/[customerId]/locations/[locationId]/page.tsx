@@ -50,6 +50,23 @@ export default function LocationDetail() {
     }
   }
 
+  // Function to get status pill class
+  const getStatusClass = (status: string) => {
+    switch (status) {
+      case "Open":
+      case "Offen":
+        return "bg-primary text-primary-foreground"
+      case "In Progress":
+      case "In Bearbeitung":
+        return "bg-accent text-accent-foreground"
+      case "Closed":
+      case "Abgeschlossen":
+        return "bg-success text-success-foreground"
+      default:
+        return "bg-primary text-primary-foreground"
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center mb-4">
@@ -116,15 +133,7 @@ export default function LocationDetail() {
                       Erstellt: {new Date(caseItem.createdAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      caseItem.status === "Open"
-                        ? "bg-blue-500 text-white"
-                        : caseItem.status === "In Progress"
-                          ? "bg-yellow-500 text-black"
-                          : "bg-green-500 text-white"
-                    }`}
-                  >
+                  <span className={`px-2 py-1 text-xs rounded-full ${getStatusClass(caseItem.status)}`}>
                     {translateStatus(caseItem.status)}
                   </span>
                 </div>

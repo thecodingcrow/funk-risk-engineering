@@ -187,8 +187,8 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                                   onClick={() => handleResponseChange(suggestion.id, "followed", true)}
                                   className={`flex items-center px-3 py-1 rounded-md ${
                                     responses[suggestion.id].followed === true
-                                      ? "bg-green-500 text-white"
-                                      : "bg-secondary text-secondary-foreground"
+                                      ? "bg-success text-success-foreground"
+                                      : "bg-primary text-primary-foreground"
                                   }`}
                                 >
                                   <CheckCircle className="h-4 w-4 mr-1" />
@@ -198,8 +198,8 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                                   onClick={() => handleResponseChange(suggestion.id, "followed", false)}
                                   className={`flex items-center px-3 py-1 rounded-md ${
                                     responses[suggestion.id].followed === false
-                                      ? "bg-red-500 text-white"
-                                      : "bg-secondary text-secondary-foreground"
+                                      ? "bg-destructive text-destructive-foreground"
+                                      : "bg-primary text-primary-foreground"
                                   }`}
                                 >
                                   <XCircle className="h-4 w-4 mr-1" />

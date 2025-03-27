@@ -19,20 +19,26 @@ export default function CaseHeader({ caseData }: CaseHeaderProps) {
     }
   }
 
+  // Function to get status pill class
+  const getStatusClass = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "bg-primary text-primary-foreground"
+      case "In Progress":
+        return "bg-accent text-accent-foreground"
+      case "Closed":
+        return "bg-success text-success-foreground"
+      default:
+        return "bg-primary text-primary-foreground"
+    }
+  }
+
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between">
       <div>
         <div className="flex items-center">
           <h1 className="text-2xl font-bold">{caseData.title}</h1>
-          <span
-            className={`ml-3 px-3 py-1 text-xs rounded-full ${
-              caseData.status === "Open"
-                ? "bg-blue-500 text-white"
-                : caseData.status === "In Progress"
-                  ? "bg-yellow-500 text-black"
-                  : "bg-green-500 text-white"
-            }`}
-          >
+          <span className={`ml-3 px-3 py-1 text-xs rounded-full ${getStatusClass(caseData.status)}`}>
             {translateStatus(caseData.status)}
           </span>
         </div>

@@ -82,7 +82,7 @@ export default function Login() {
                 <Briefcase className="h-6 w-6 text-primary" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold">FUNK Risikomanagement</CardTitle>
+            <CardTitle className="text-2xl font-bold text-primary">FUNK Risikomanagement</CardTitle>
             <CardDescription>Geben Sie Ihre Anmeldedaten ein, um auf Ihr Konto zuzugreifen</CardDescription>
           </CardHeader>
 
@@ -153,7 +153,11 @@ export default function Login() {
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isSubmitting || isLoading}>
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90"
+                disabled={isSubmitting || isLoading}
+              >
                 {isSubmitting ? "Anmeldung..." : "Anmelden"}
               </Button>
 

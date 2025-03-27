@@ -3,48 +3,88 @@
 @tailwind utilities;
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  /* Primary colors */
+  --primary: 210 100% 29%; /* #005092 - Dark blue as primary */
+  --primary-foreground: 0 0% 100%; /* White text on primary */
+
+  /* Secondary colors */
+  --secondary: 199 60% 60%; /* #5BBAD5 - Light blue as secondary */
+  --secondary-foreground: 0 0% 0%; /* Black text on secondary */
+
+  /* Accent colors */
+  --accent: 39 64% 46%; /* #C69224 - Gold as accent */
+  --accent-foreground: 0 0% 100%; /* White text on accent */
+
+  /* Destructive colors */
+  --destructive: 3 80% 42%; /* #C61811 - Red as destructive */
+  --destructive-foreground: 0 0% 100%; /* White text on destructive */
+
+  /* Success color */
+  --success: 120 55% 33%; /* #388625 - Green as success */
+  --success-foreground: 0 0% 100%; /* White text on success */
+
+  /* Background and foreground */
+  --background: 0 0% 100%; /* White background */
+  --foreground: 222 17% 21%; /* #2B333F - Dark navy as text */
+
+  /* Card and UI elements */
+  --card: 0 0% 100%; /* White card background */
+  --card-foreground: 222 17% 21%; /* Dark navy text on cards */
+  --popover: 0 0% 100%; /* White popover background */
+  --popover-foreground: 222 17% 21%; /* Dark navy text on popovers */
+
+  /* Muted elements */
+  --muted: 210 40% 96.1%; /* Light blue-gray for muted areas */
+  --muted-foreground: 215.4 16.3% 46.9%; /* Muted text color */
+
+  /* Border and input */
+  --border: 214.3 31.8% 91.4%; /* Light border color */
+  --input: 214.3 31.8% 91.4%; /* Input border color */
+  --ring: 210 100% 29%; /* Focus ring color (primary) */
+
+  /* Radius */
   --radius: 0.5rem;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
+  /* Primary colors */
+  --primary: 199 60% 60%; /* #5BBAD5 - Light blue as primary in dark mode */
+  --primary-foreground: 222 17% 21%; /* Dark navy text on primary */
+
+  /* Secondary colors */
+  --secondary: 210 100% 29%; /* #005092 - Dark blue as secondary in dark mode */
+  --secondary-foreground: 0 0% 100%; /* White text on secondary */
+
+  /* Accent colors */
+  --accent: 39 64% 46%; /* #C69224 - Gold as accent */
+  --accent-foreground: 0 0% 100%; /* White text on accent */
+
+  /* Destructive colors */
+  --destructive: 3 80% 42%; /* #C61811 - Red as destructive */
+  --destructive-foreground: 0 0% 100%; /* White text on destructive */
+
+  /* Success color */
+  --success: 120 55% 33%; /* #388625 - Green as success */
+  --success-foreground: 0 0% 100%; /* White text on success */
+
+  /* Background and foreground */
+  --background: 222 17% 21%; /* #2B333F - Dark navy as background */
+  --foreground: 0 0% 95%; /* Light text on dark background */
+
+  /* Card and UI elements */
+  --card: 222 17% 18%; /* Slightly lighter than background */
+  --card-foreground: 0 0% 95%; /* Light text on cards */
+  --popover: 222 17% 18%; /* Popover background */
+  --popover-foreground: 0 0% 95%; /* Light text on popovers */
+
+  /* Muted elements */
+  --muted: 222 17% 30%; /* Muted background */
+  --muted-foreground: 210 40% 80%; /* Muted text color */
+
+  /* Border and input */
+  --border: 222 17% 30%; /* Border color */
+  --input: 222 17% 30%; /* Input border color */
+  --ring: 199 60% 60%; /* Focus ring color (light blue) */
 }
 
 body {
@@ -66,7 +106,9 @@ body {
   .rounded-lg {
     border-radius: var(--radius) !important;
   }
+}
 
+@layer components {
   /* Status pill styling */
   .status-pill {
     @apply px-2 py-1 text-xs rounded-full inline-flex items-center justify-center font-medium;
@@ -75,15 +117,15 @@ body {
   }
 
   .status-pill-open {
-    @apply bg-blue-500 text-white;
+    @apply bg-primary text-primary-foreground;
   }
 
   .status-pill-in-progress {
-    @apply bg-yellow-500 text-black;
+    @apply bg-accent text-accent-foreground;
   }
 
   .status-pill-closed {
-    @apply bg-green-500 text-white;
+    @apply bg-success text-success-foreground;
   }
 }
 

@@ -118,7 +118,7 @@ export default function LocationsPage() {
               <div className="mt-2 md:mt-0 flex items-center gap-2">
                 <button
                   onClick={() => setSelectedLocationId(null)}
-                  className="px-3 py-1 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors flex items-center"
+                  className="px-3 py-1 bg-primary text-primary-foreground rounded-custom hover:bg-primary/90 transition-colors flex items-center"
                 >
                   <X className="mr-1 h-4 w-4" />
                   Abwählen

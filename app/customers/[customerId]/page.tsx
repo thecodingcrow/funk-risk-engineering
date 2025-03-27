@@ -130,12 +130,12 @@ export default function CustomerDetail() {
                       </p>
                     </div>
                     <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        caseItem.status === "Open"
-                          ? "bg-blue-500 text-white"
-                          : caseItem.status === "In Progress"
-                            ? "bg-yellow-500 text-black"
-                            : "bg-green-500 text-white"
+                      className={`status-pill ${
+                        caseItem.status === "Open" || caseItem.status === "Offen"
+                          ? "status-pill-open"
+                          : caseItem.status === "In Progress" || caseItem.status === "In Bearbeitung"
+                            ? "status-pill-in-progress"
+                            : "status-pill-closed"
                       }`}
                     >
                       {translateStatus(caseItem.status)}
