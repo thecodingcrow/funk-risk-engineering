@@ -5,7 +5,6 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { MapPin, Building, Phone, Mail, Globe, Briefcase } from "lucide-react"
 import { getCustomerById, getCustomerLocations, getCasesByCustomer } from "@/lib/data"
-import CustomerMap from "./components/CustomerMap"
 
 export default function CustomerDetail() {
   const params = useParams()
@@ -72,10 +71,6 @@ export default function CustomerDetail() {
               <MapPin className="mr-2 h-5 w-5" />
               Locations ({locations.length})
             </h2>
-
-            <div className="h-[400px] rounded-md overflow-hidden mb-6">
-              <CustomerMap locations={locations} />
-            </div>
 
             <div className="space-y-3">
               {locations.map((location) => (

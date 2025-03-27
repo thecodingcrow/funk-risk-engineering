@@ -11,7 +11,6 @@ import ReportSection from "../components/ReportSection"
 import AttachmentsSection from "../components/AttachmentsSection"
 import ActionButtons from "../components/ActionButtons"
 import StatusHistory from "../components/StatusHistory"
-import NotesSection from "../components/NotesSection"
 import CustomerView from "../components/CustomerView"
 
 export default function CaseFullView() {
@@ -100,7 +99,6 @@ export default function CaseFullView() {
             notes: "Case created",
           },
         ],
-        notes: [],
       })
 
       setCustomer(customerData)
@@ -245,24 +243,6 @@ export default function CaseFullView() {
           />
 
           <StatusHistory history={caseData.statusHistory} />
-
-          <NotesSection
-            notes={caseData.notes}
-            onAddNote={(note) => {
-              updateCaseData({
-                ...caseData,
-                notes: [
-                  ...caseData.notes,
-                  {
-                    id: `note-${caseData.notes.length + 1}`,
-                    content: note,
-                    createdBy: "emp-456", // In a real app, this would be the current user
-                    createdAt: new Date().toISOString(),
-                  },
-                ],
-              })
-            }}
-          />
         </div>
       </div>
     </div>

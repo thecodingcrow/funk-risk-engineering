@@ -10,7 +10,6 @@ import {
   getCustomerLocations,
   getCasesByLocation,
 } from "@/lib/data"
-import AustriaMap from "./components/AustriaMap"
 import Link from "next/link"
 
 export default function LocationsPage() {
@@ -54,11 +53,6 @@ export default function LocationsPage() {
     return caseItem.title.toLowerCase().includes(searchTerm.toLowerCase())
   })
 
-  // Handle location selection
-  const handleLocationSelect = (locationId: string | null) => {
-    setSelectedLocationId(locationId)
-  }
-
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Locations</h1>
@@ -83,13 +77,24 @@ export default function LocationsPage() {
           </select>
         </div>
 
-        <div className="h-[500px] bg-background rounded-custom overflow-hidden mb-6">
-          <AustriaMap
-            locations={customerLocations.length > 0 ? customerLocations : locations}
-            selectedLocationId={selectedLocationId}
-            onLocationSelect={handleLocationSelect}
-            highlightAll={!selectedCustomerId}
-          />
+        <div className="mb-6">
+          <label htmlFor="locationSelect" className="block text-sm font-medium mb-2">
+            Select Location
+          </label>
+          <select
+            id="locationSelect"
+            value={selectedLocationId || ""}
+            onChange={(e) => setSelectedLocationId(e.target.value || null)}
+            className="w-full md:w-1/3 p-2 rounded-custom border border-input bg-background"
+            disabled={!selectedCustomerId && customerLocations.length === 0}
+          >
+            <option value="">Select a location</option>
+            {(customerLocations.length > 0 ? customerLocations : locations).map((location) => (
+              <option key={location.id} value={location.id}>
+                {location.name} - {location.address}
+              </option>
+            ))}
+          </select>
         </div>
 
         {selectedLocationId && (
