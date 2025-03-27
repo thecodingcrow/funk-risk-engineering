@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { FileText, AlertTriangle, Upload, CheckCircle, XCircle } from "lucide-react"
+import { FileText, AlertTriangle, Upload, CheckCircle, XCircle, Paperclip } from "lucide-react"
 
 interface CustomerViewProps {
   caseData: any
@@ -59,7 +59,7 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
     )
 
     if (!allResponded) {
-      alert("Please respond to all suggestions before submitting.")
+      alert("Please respond to all recommendations before submitting.")
       return
     }
 
@@ -78,12 +78,34 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
     onSubmit(updatedCase)
   }
 
+  // Count how many recommendations have been responded to
+  const respondedCount = Object.values(responses).filter((response) => response.followed !== null).length
+  const totalCount = caseData.report.suggestions.length
+  const progressPercentage = totalCount > 0 ? (respondedCount / totalCount) * 100 : 0
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-card p-6 rounded-lg shadow mb-6">
         <h1 className="text-2xl font-bold">Risk Assessment Report</h1>
         <p className="text-muted-foreground mt-2">For: {caseData.customer.name}</p>
+        <p className="text-muted-foreground">Location: {caseData.location.name}</p>
         <p className="text-muted-foreground">Created: {new Date(caseData.createdAt).toLocaleDateString()}</p>
+      </div>
+
+      {/* Progress indicator */}
+      <div className="bg-card p-6 rounded-lg shadow mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg font-medium">Your Progress</h2>
+          <span className="text-sm font-medium">
+            {respondedCount} of {totalCount} completed
+          </span>
+        </div>
+        <div className="w-full bg-muted rounded-full h-2.5">
+          <div className="bg-primary h-2.5 rounded-full" style={{ width: `${progressPercentage}%` }}></div>
+        </div>
+        <p className="text-sm text-muted-foreground mt-2">
+          Please respond to all recommendations below and provide supporting documentation where applicable.
+        </p>
       </div>
 
       <div className="bg-card p-6 rounded-lg shadow mb-6">
@@ -126,7 +148,18 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                     .filter((suggestion: any) => suggestion.riskId === risk.id)
                     .map((suggestion: any) => (
                       <li key={suggestion.id} className="pl-4 border-l-2 border-muted">
-                        <p className="text-sm">{suggestion.description}</p>
+                        <div className="flex items-start">
+                          <div className="flex-grow">
+                            <p className="text-sm font-medium">{suggestion.description}</p>
+                            {suggestion.priority && (
+                              <p className="text-xs text-muted-foreground mt-1">
+                                Priority: <span className="font-medium">{suggestion.priority}</span> • Estimated Cost:{" "}
+                                <span className="font-medium">{suggestion.estimatedCost}</span> • Timeframe:{" "}
+                                <span className="font-medium">{suggestion.timeframe}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
 
                         <div className="mt-3 p-3 bg-card rounded-md">
                           <h5 className="text-sm font-medium">Your Response:</h5>
@@ -167,12 +200,21 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                                 onChange={(e) => handleResponseChange(suggestion.id, "explanation", e.target.value)}
                                 className="w-full p-2 rounded-md border border-input bg-background"
                                 rows={3}
-                                placeholder="Provide details about your implementation or why you couldn't implement this recommendation..."
+                                placeholder={
+                                  responses[suggestion.id].followed === true
+                                    ? "Describe how you implemented this recommendation..."
+                                    : responses[suggestion.id].followed === false
+                                      ? "Explain why you couldn't implement this recommendation..."
+                                      : "Provide details about your implementation..."
+                                }
                               />
                             </div>
 
                             <div>
-                              <label className="block text-sm mb-1">Upload supporting documents (optional):</label>
+                              <label className="block text-sm mb-1 flex items-center">
+                                <Paperclip className="h-4 w-4 mr-1" />
+                                Supporting documents:
+                              </label>
                               <input
                                 type="file"
                                 onChange={(e) => handleFileUpload(suggestion.id, e)}
@@ -180,11 +222,12 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                               />
 
                               {responses[suggestion.id].attachments.length > 0 && (
-                                <ul className="mt-2 space-y-1">
+                                <ul className="mt-2 space-y-1 bg-background p-2 rounded-md">
                                   {responses[suggestion.id].attachments.map((attachment: any) => (
                                     <li key={attachment.id} className="text-xs flex items-center">
-                                      <Upload className="h-3 w-3 mr-1" />
-                                      {attachment.fileName}
+                                      <Upload className="h-3 w-3 mr-1 text-primary" />
+                                      <span className="font-medium">{attachment.fileName}</span>
+                                      <span className="ml-1 text-muted-foreground">({attachment.fileSize})</span>
                                     </li>
                                   ))}
                                 </ul>
@@ -201,10 +244,18 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
         </div>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-muted-foreground">
+          {respondedCount === totalCount
+            ? "All recommendations have been addressed. You can now submit your responses."
+            : `Please address the remaining ${totalCount - respondedCount} recommendations.`}
+        </p>
         <button
           onClick={handleSubmit}
-          className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          disabled={respondedCount < totalCount}
+          className={`px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors ${
+            respondedCount < totalCount ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           Submit Responses
         </button>

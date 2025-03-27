@@ -1,5 +1,3 @@
-import { ClipboardList } from "lucide-react"
-
 interface CaseDetailsProps {
   caseData: any
   isEditing: boolean
@@ -7,15 +5,18 @@ interface CaseDetailsProps {
 
 export default function CaseDetails({ caseData, isEditing }: CaseDetailsProps) {
   return (
-    <div className="bg-card p-6 rounded-lg shadow">
-      <h2 className="text-xl font-semibold flex items-center">
-        <ClipboardList className="h-5 w-5 mr-2" />
-        Case Details
-      </h2>
+    <div>
+      <div className="mb-4">
+        <p className="text-muted-foreground mb-2">Case Description:</p>
+        <p className="bg-muted/30 p-3 rounded-lg">
+          {caseData.description ||
+            "This is a sample case description for demonstration purposes. In a real application, this would contain detailed information about the case."}
+        </p>
+      </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-4">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {Object.entries(caseData.metadata).map(([key, value]) => (
-          <div key={key} className="bg-background p-3 rounded-md">
+          <div key={key} className="bg-muted/30 p-3 rounded-lg">
             <h3 className="text-sm font-medium text-muted-foreground capitalize">{key}</h3>
             <p className="font-medium">{value as string}</p>
           </div>

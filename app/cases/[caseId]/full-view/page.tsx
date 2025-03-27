@@ -1,9 +1,20 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, useSearchParams } from "next/navigation"
+import { useParams } from "next/navigation"
 import Link from "next/link"
-import { MapPin, Building } from "lucide-react"
+import {
+  MapPin,
+  Building,
+  ArrowLeft,
+  FileText,
+  Clipboard,
+  AlertTriangle,
+  Paperclip,
+  Clock,
+  ExternalLink,
+  Users,
+} from "lucide-react"
 import { getCaseById, getCustomerById, getLocationById } from "@/lib/data"
 import CaseHeader from "../components/CaseHeader"
 import CaseDetails from "../components/CaseDetails"
@@ -15,9 +26,7 @@ import CustomerView from "../components/CustomerView"
 
 export default function CaseFullView() {
   const params = useParams()
-  const searchParams = useSearchParams()
   const caseId = Number(params.caseId)
-  const mode = searchParams.get("mode") || "view"
 
   // In a real app, you would determine user type through authentication
   const [userType, setUserType] = useState<"employee" | "customer">("employee")
@@ -72,6 +81,9 @@ export default function CaseFullView() {
               id: "sug-1",
               riskId: "risk-1",
               description: "Implement a comprehensive safety training program for all employees.",
+              priority: "High",
+              estimatedCost: "Medium",
+              timeframe: "1-3 months",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -82,6 +94,9 @@ export default function CaseFullView() {
               id: "sug-2",
               riskId: "risk-2",
               description: "Create a maintenance schedule and assign responsible personnel.",
+              priority: "Medium",
+              estimatedCost: "Low",
+              timeframe: "1-2 months",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -121,7 +136,11 @@ export default function CaseFullView() {
   }
 
   if (isLoading) {
-    return <div className="p-8">Loading case data...</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   if (!caseData) {
@@ -133,19 +152,23 @@ export default function CaseFullView() {
     return (
       <div className="animate-in">
         {/* For demo purposes only */}
-        <button
-          onClick={toggleUserType}
-          className="fixed top-4 right-4 px-3 py-1 bg-yellow-500 text-black rounded-md text-xs"
-        >
-          Switch to Employee View (Demo)
-        </button>
+        <div className="fixed top-4 right-4 z-50 bg-card p-2 rounded-md shadow-md border border-border">
+          <button
+            onClick={toggleUserType}
+            className="px-3 py-1 bg-primary text-primary-foreground rounded-md text-xs flex items-center"
+          >
+            <Users className="h-3 w-3 mr-1" />
+            Switch to Employee View
+          </button>
+          <p className="text-xs text-muted-foreground mt-1">Demo Mode: Customer Report View</p>
+        </div>
 
         <CustomerView
           caseData={caseData}
           onSubmit={(updatedCase) => {
             updateCaseData(updatedCase)
             // In a real app, you would redirect or show a success message
-            alert("Thank you for your submission!")
+            alert("Thank you for your submission! Your responses have been recorded.")
           }}
         />
       </div>
@@ -155,25 +178,45 @@ export default function CaseFullView() {
   return (
     <div className="space-y-6 animate-in">
       {/* For demo purposes only */}
-      <button
-        onClick={toggleUserType}
-        className="fixed top-4 right-4 px-3 py-1 bg-yellow-500 text-black rounded-md text-xs"
-      >
-        Switch to Customer View (Demo)
-      </button>
+      <div className="fixed top-4 right-4 z-50 bg-card p-2 rounded-md shadow-md border border-border">
+        <button
+          onClick={toggleUserType}
+          className="px-3 py-1 bg-blue-600 text-white rounded-md text-xs flex items-center"
+        >
+          <Users className="h-3 w-3 mr-1" />
+          Preview Customer View
+        </button>
+        <p className="text-xs text-muted-foreground mt-1">See what customers will respond to</p>
+      </div>
 
-      <CaseHeader caseData={caseData} />
+      {/* Back button */}
+      <div className="mb-4">
+        <Link href="/cases" className="inline-flex items-center text-sm text-primary hover:underline">
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Back to Cases
+        </Link>
+      </div>
+
+      {/* Case header with status */}
+      <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 shadow-md">
+        <CaseHeader caseData={caseData} />
+      </div>
 
       {/* Location and Customer Info */}
-      <div className="bg-card p-4 rounded-lg shadow">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-          <div className="flex items-center">
-            <MapPin className="h-5 w-5 mr-2 text-muted-foreground" />
+      <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
+        <div className="bg-muted/30 px-4 py-3 border-b border-border">
+          <h2 className="font-medium">Case Information</h2>
+        </div>
+        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-card p-4 rounded-lg flex items-start">
+            <div className="bg-primary/10 p-2 rounded-full mr-3">
+              <MapPin className="h-5 w-5 text-primary" />
+            </div>
             <div>
-              <p className="text-sm font-medium">Location:</p>
+              <p className="text-sm font-medium text-muted-foreground">Location</p>
               <Link
                 href={`/customers/${caseData.customerId}/locations/${caseData.locationId}`}
-                className="text-primary hover:underline"
+                className="text-primary hover:underline font-medium"
               >
                 {caseData.location?.name}
               </Link>
@@ -181,13 +224,16 @@ export default function CaseFullView() {
             </div>
           </div>
 
-          <div className="flex items-center mt-2 sm:mt-0">
-            <Building className="h-5 w-5 mr-2 text-muted-foreground" />
+          <div className="bg-card p-4 rounded-lg flex items-start">
+            <div className="bg-primary/10 p-2 rounded-full mr-3">
+              <Building className="h-5 w-5 text-primary" />
+            </div>
             <div>
-              <p className="text-sm font-medium">Customer:</p>
-              <Link href={`/customers/${caseData.customerId}`} className="text-primary hover:underline">
+              <p className="text-sm font-medium text-muted-foreground">Customer</p>
+              <Link href={`/customers/${caseData.customerId}`} className="text-primary hover:underline font-medium">
                 {caseData.customer?.name}
               </Link>
+              <p className="text-xs text-muted-foreground">{caseData.customer?.industry}</p>
             </div>
           </div>
         </div>
@@ -195,54 +241,107 @@ export default function CaseFullView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <CaseDetails caseData={caseData} isEditing={mode === "edit"} />
+          {/* Case Details Section */}
+          <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
+            <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
+              <Clipboard className="h-5 w-5 mr-2 text-muted-foreground" />
+              <h2 className="font-medium">Case Details</h2>
+            </div>
+            <div className="p-4">
+              <CaseDetails caseData={caseData} isEditing={false} />
+            </div>
+          </div>
 
-          <ReportSection
-            report={caseData.report}
-            isEditing={mode === "edit"}
-            onUpdate={(updatedReport) => {
-              updateCaseData({
-                ...caseData,
-                report: updatedReport,
-              })
-            }}
-          />
+          {/* Report Section */}
+          <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
+            <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center justify-between">
+              <div className="flex items-center">
+                <FileText className="h-5 w-5 mr-2 text-muted-foreground" />
+                <h2 className="font-medium">Risk Assessment Report</h2>
+              </div>
+              <Link
+                href={`/cases/${caseId}/report`}
+                className="inline-flex items-center text-sm text-primary hover:underline"
+              >
+                View Full Report
+                <ExternalLink className="h-3 w-3 ml-1" />
+              </Link>
+            </div>
+            <div className="p-4">
+              <ReportSection
+                report={caseData.report}
+                isEditing={false}
+                onUpdate={(updatedReport) => {
+                  updateCaseData({
+                    ...caseData,
+                    report: updatedReport,
+                  })
+                }}
+              />
+            </div>
+          </div>
 
-          <AttachmentsSection
-            attachments={caseData.attachments}
-            isEditing={mode === "edit"}
-            onUpdate={(updatedAttachments) => {
-              updateCaseData({
-                ...caseData,
-                attachments: updatedAttachments,
-              })
-            }}
-          />
+          {/* Attachments Section */}
+          <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
+            <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
+              <Paperclip className="h-5 w-5 mr-2 text-muted-foreground" />
+              <h2 className="font-medium">Attachments</h2>
+            </div>
+            <div className="p-4">
+              <AttachmentsSection
+                attachments={caseData.attachments}
+                isEditing={false}
+                onUpdate={(updatedAttachments) => {
+                  updateCaseData({
+                    ...caseData,
+                    attachments: updatedAttachments,
+                  })
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="space-y-6">
-          <ActionButtons
-            caseData={caseData}
-            mode={mode}
-            onStatusChange={(newStatus) => {
-              const now = new Date().toISOString()
-              updateCaseData({
-                ...caseData,
-                status: newStatus,
-                statusHistory: [
-                  ...caseData.statusHistory,
-                  {
+          {/* Action Buttons */}
+          <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
+            <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
+              <AlertTriangle className="h-5 w-5 mr-2 text-muted-foreground" />
+              <h2 className="font-medium">Actions</h2>
+            </div>
+            <div className="p-4">
+              <ActionButtons
+                caseData={caseData}
+                onStatusChange={(newStatus) => {
+                  const now = new Date().toISOString()
+                  updateCaseData({
+                    ...caseData,
                     status: newStatus,
-                    timestamp: now,
-                    updatedBy: "emp-456", // In a real app, this would be the current user
-                    notes: `Status changed to ${newStatus}`,
-                  },
-                ],
-              })
-            }}
-          />
+                    statusHistory: [
+                      ...caseData.statusHistory,
+                      {
+                        status: newStatus,
+                        timestamp: now,
+                        updatedBy: "emp-456", // In a real app, this would be the current user
+                        notes: `Status changed to ${newStatus}`,
+                      },
+                    ],
+                  })
+                }}
+              />
+            </div>
+          </div>
 
-          <StatusHistory history={caseData.statusHistory} />
+          {/* Status History */}
+          <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
+            <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
+              <Clock className="h-5 w-5 mr-2 text-muted-foreground" />
+              <h2 className="font-medium">Status History</h2>
+            </div>
+            <div className="p-4">
+              <StatusHistory history={caseData.statusHistory} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
