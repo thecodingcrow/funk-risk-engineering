@@ -48,40 +48,40 @@ export default function ReportPage() {
           id: "emp-456",
           name: "John Doe",
           email: "john.doe@company.com",
-          position: "Risk Assessment Specialist",
+          position: "Risikobewertungsspezialist",
         },
         report: {
-          title: `${caseItem.title} Report`,
+          title: `${caseItem.title} Bericht`,
           overview:
-            "This comprehensive risk assessment report identifies potential hazards and provides detailed recommendations for risk mitigation. The assessment was conducted according to industry standards and regulatory requirements.",
+            "Dieser umfassende Risikobewertungsbericht identifiziert potenzielle Gefahren und bietet detaillierte Empfehlungen zur Risikominderung. Die Bewertung wurde gemäß Branchenstandards und regulatorischen Anforderungen durchgeführt.",
           date: new Date().toISOString(),
           riskAssessments: [
             {
               id: "risk-1",
-              title: "Safety Concerns",
+              title: "Sicherheitsbedenken",
               description:
-                "Several safety issues were identified during the inspection, including inadequate emergency exits, missing fire extinguishers, and poor lighting in stairwells. These issues pose significant risks to employees and visitors in case of emergency situations.",
+                "Bei der Inspektion wurden mehrere Sicherheitsprobleme festgestellt, darunter unzureichende Notausgänge, fehlende Feuerlöscher und schlechte Beleuchtung in Treppenhäusern. Diese Probleme stellen erhebliche Risiken für Mitarbeiter und Besucher im Notfall dar.",
               severity: "High",
-              impactAreas: ["Employee Safety", "Regulatory Compliance", "Liability"],
-              potentialConsequences: "Injuries, regulatory fines, potential lawsuits",
+              impactAreas: ["Mitarbeitersicherheit", "Regulatorische Compliance", "Haftung"],
+              potentialConsequences: "Verletzungen, behördliche Bußgelder, potenzielle Klagen",
             },
             {
               id: "risk-2",
-              title: "Maintenance Issues",
+              title: "Wartungsprobleme",
               description:
-                "Regular maintenance procedures are not being followed for critical equipment. Documentation shows gaps in maintenance schedules, and several pieces of equipment show signs of wear beyond acceptable limits. This increases the likelihood of equipment failure and potential safety incidents.",
+                "Regelmäßige Wartungsverfahren werden für kritische Geräte nicht eingehalten. Die Dokumentation zeigt Lücken in den Wartungsplänen, und mehrere Geräte zeigen Verschleißerscheinungen über akzeptable Grenzen hinaus. Dies erhöht die Wahrscheinlichkeit von Geräteausfällen und potenziellen Sicherheitsvorfällen.",
               severity: "Medium",
-              impactAreas: ["Operational Continuity", "Equipment Lifespan", "Safety"],
-              potentialConsequences: "Equipment failure, production delays, increased repair costs",
+              impactAreas: ["Betriebliche Kontinuität", "Geräte-Lebensdauer", "Sicherheit"],
+              potentialConsequences: "Geräteausfall, Produktionsverzögerungen, erhöhte Reparaturkosten",
             },
             {
               id: "risk-3",
-              title: "Data Security Vulnerabilities",
+              title: "Datensicherheitslücken",
               description:
-                "The assessment identified several potential vulnerabilities in the data security protocols. These include outdated software, weak password policies, and insufficient access controls for sensitive information.",
+                "Die Bewertung hat mehrere potenzielle Schwachstellen in den Datensicherheitsprotokollen identifiziert. Dazu gehören veraltete Software, schwache Passwortrichtlinien und unzureichende Zugriffskontrollen für sensible Informationen.",
               severity: "High",
-              impactAreas: ["Data Protection", "Customer Trust", "Regulatory Compliance"],
-              potentialConsequences: "Data breaches, regulatory penalties, reputation damage",
+              impactAreas: ["Datenschutz", "Kundenvertrauen", "Regulatorische Compliance"],
+              potentialConsequences: "Datenschutzverletzungen, behördliche Strafen, Reputationsschäden",
             },
           ],
           suggestions: [
@@ -89,10 +89,10 @@ export default function ReportPage() {
               id: "sug-1",
               riskId: "risk-1",
               description:
-                "Implement a comprehensive safety training program for all employees. Ensure all emergency exits are clearly marked and unobstructed. Install additional fire extinguishers in identified areas and implement a monthly inspection schedule.",
+                "Implementieren Sie ein umfassendes Sicherheitsschulungsprogramm für alle Mitarbeiter. Stellen Sie sicher, dass alle Notausgänge deutlich gekennzeichnet und nicht blockiert sind. Installieren Sie zusätzliche Feuerlöscher in den identifizierten Bereichen und implementieren Sie einen monatlichen Inspektionsplan.",
               priority: "High",
               estimatedCost: "Medium",
-              timeframe: "1-3 months",
+              timeframe: "1-3 Monate",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -103,10 +103,10 @@ export default function ReportPage() {
               id: "sug-2",
               riskId: "risk-2",
               description:
-                "Create a maintenance schedule and assign responsible personnel. Implement a digital maintenance tracking system to ensure regular maintenance is performed and documented. Conduct training for maintenance staff on proper procedures.",
+                "Erstellen Sie einen Wartungsplan und weisen Sie verantwortliches Personal zu. Implementieren Sie ein digitales Wartungsverfolgungssystem, um sicherzustellen, dass regelmäßige Wartungen durchgeführt und dokumentiert werden. Führen Sie Schulungen für das Wartungspersonal zu den richtigen Verfahren durch.",
               priority: "Medium",
               estimatedCost: "Low",
-              timeframe: "1-2 months",
+              timeframe: "1-2 Monate",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -117,10 +117,10 @@ export default function ReportPage() {
               id: "sug-3",
               riskId: "risk-3",
               description:
-                "Update all software to the latest versions and implement a regular update schedule. Strengthen password policies and implement multi-factor authentication for all accounts with access to sensitive data. Conduct security awareness training for all employees.",
+                "Aktualisieren Sie alle Software auf die neuesten Versionen und implementieren Sie einen regelmäßigen Aktualisierungsplan. Stärken Sie die Passwortrichtlinien und implementieren Sie eine Zwei-Faktor-Authentifizierung für alle Konten mit Zugriff auf sensible Daten. Führen Sie Sicherheitsbewusstseinstraining für alle Mitarbeiter durch.",
               priority: "High",
               estimatedCost: "Medium",
-              timeframe: "1 month",
+              timeframe: "1 Monat",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -129,7 +129,7 @@ export default function ReportPage() {
             },
           ],
           conclusion:
-            "This risk assessment has identified several areas requiring attention to ensure compliance with safety regulations and industry best practices. Addressing these issues promptly will significantly reduce potential risks and improve overall safety and operational efficiency.",
+            "Diese Risikobewertung hat mehrere Bereiche identifiziert, die Aufmerksamkeit erfordern, um die Einhaltung von Sicherheitsvorschriften und Branchenstandards zu gewährleisten. Die umgehende Behebung dieser Probleme wird potenzielle Risiken erheblich reduzieren und die allgemeine Sicherheit und betriebliche Effizienz verbessern.",
         },
       }
 
@@ -177,11 +177,11 @@ export default function ReportPage() {
         ...reportData.riskAssessments,
         {
           id: newRiskId,
-          title: "New Risk Assessment",
-          description: "Description of the risk",
+          title: "Neue Risikobewertung",
+          description: "Beschreibung des Risikos",
           severity: "Medium",
-          impactAreas: ["Area 1", "Area 2"],
-          potentialConsequences: "Potential consequences of the risk",
+          impactAreas: ["Bereich 1", "Bereich 2"],
+          potentialConsequences: "Potenzielle Konsequenzen des Risikos",
         },
       ],
     })
@@ -196,10 +196,10 @@ export default function ReportPage() {
         {
           id: newSuggestionId,
           riskId: riskId,
-          description: "New recommendation for addressing the risk",
+          description: "Neue Empfehlung zur Behebung des Risikos",
           priority: "Medium",
           estimatedCost: "Medium",
-          timeframe: "1-2 months",
+          timeframe: "1-2 Monate",
           customerResponse: {
             followed: null,
             explanation: "",
@@ -235,7 +235,7 @@ export default function ReportPage() {
   }
 
   if (!caseData || !reportData) {
-    return <div className="p-8">Case not found</div>
+    return <div className="p-8">Fall nicht gefunden</div>
   }
 
   const getSeverityColor = (severity: string) => {
@@ -264,13 +264,27 @@ export default function ReportPage() {
     }
   }
 
+  // Function to translate severity and priority
+  const translateSeverity = (severity: string) => {
+    switch (severity) {
+      case "High":
+        return "Hoch"
+      case "Medium":
+        return "Mittel"
+      case "Low":
+        return "Niedrig"
+      default:
+        return severity
+    }
+  }
+
   return (
     <div className="max-w-5xl mx-auto space-y-6 pb-12">
       {/* Navigation and actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between">
         <Link href={`/cases/${caseId}/full-view`} className="inline-flex items-center text-primary hover:underline">
           <ArrowLeft className="h-4 w-4 mr-1" />
-          Back to Case
+          Zurück zum Fall
         </Link>
 
         <div className="mt-4 sm:mt-0 flex items-center space-x-2">
@@ -280,7 +294,7 @@ export default function ReportPage() {
               className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
             >
               <Save className="h-4 w-4 mr-1" />
-              Save Changes
+              Änderungen speichern
             </button>
           ) : (
             <>
@@ -289,19 +303,19 @@ export default function ReportPage() {
                 className="inline-flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
               >
                 <Edit className="h-4 w-4 mr-1" />
-                Edit Report
+                Bericht bearbeiten
               </Link>
               <button className="inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors">
                 <Printer className="h-4 w-4 mr-1" />
-                Print
+                Drucken
               </button>
               <button className="inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors">
                 <Download className="h-4 w-4 mr-1" />
-                Download PDF
+                PDF herunterladen
               </button>
               <button className="inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors">
                 <Share2 className="h-4 w-4 mr-1" />
-                Share
+                Teilen
               </button>
             </>
           )}
@@ -325,17 +339,17 @@ export default function ReportPage() {
                 {reportData.title}
               </h1>
             )}
-            <p className="text-muted-foreground mt-1">Case #{caseData.id}</p>
+            <p className="text-muted-foreground mt-1">Fall #{caseData.id}</p>
           </div>
 
           <div className="mt-4 md:mt-0 flex flex-col items-start md:items-end">
             <div className="flex items-center text-sm">
               <Calendar className="h-4 w-4 mr-1" />
-              <span>Report Date: {new Date(reportData.date).toLocaleDateString()}</span>
+              <span>Berichtsdatum: {new Date(reportData.date).toLocaleDateString()}</span>
             </div>
             <div className="flex items-center text-sm mt-1">
               <User className="h-4 w-4 mr-1" />
-              <span>Prepared by: {caseData.assignedEmployee.name}</span>
+              <span>Erstellt von: {caseData.assignedEmployee.name}</span>
             </div>
           </div>
         </div>
@@ -344,13 +358,13 @@ export default function ReportPage() {
       {/* Customer and location info */}
       <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
         <div className="bg-muted/30 px-4 py-3 border-b border-border">
-          <h2 className="font-medium">Assessment Information</h2>
+          <h2 className="font-medium">Bewertungsinformationen</h2>
         </div>
         <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-card p-4 rounded-lg">
             <h3 className="text-sm font-medium flex items-center">
               <Building className="h-4 w-4 mr-1 text-muted-foreground" />
-              Customer
+              Kunde
             </h3>
             <p className="font-semibold mt-1">{caseData.customer?.name}</p>
             <p className="text-sm text-muted-foreground">{caseData.customer?.industry}</p>
@@ -361,7 +375,7 @@ export default function ReportPage() {
           <div className="bg-card p-4 rounded-lg">
             <h3 className="text-sm font-medium flex items-center">
               <MapPin className="h-4 w-4 mr-1 text-muted-foreground" />
-              Location
+              Standort
             </h3>
             <p className="font-semibold mt-1">{caseData.location?.name}</p>
             <p className="text-sm text-muted-foreground">{caseData.location?.address}</p>
@@ -372,7 +386,7 @@ export default function ReportPage() {
       {/* Report overview */}
       <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
         <div className="bg-muted/30 px-4 py-3 border-b border-border">
-          <h2 className="font-medium">Executive Summary</h2>
+          <h2 className="font-medium">Zusammenfassung</h2>
         </div>
         <div className="p-6">
           {isEditing ? (
@@ -392,7 +406,7 @@ export default function ReportPage() {
         <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center justify-between">
           <h2 className="font-medium flex items-center">
             <AlertTriangle className="h-5 w-5 mr-2 text-muted-foreground" />
-            Risk Assessments
+            Risikobewertungen
           </h2>
           {isEditing && (
             <button
@@ -400,7 +414,7 @@ export default function ReportPage() {
               className="inline-flex items-center px-2 py-1 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
             >
               <Plus className="h-3 w-3 mr-1" />
-              Add Risk
+              Risiko hinzufügen
             </button>
           )}
         </div>
@@ -415,7 +429,7 @@ export default function ReportPage() {
                       value={risk.title}
                       onChange={(e) => updateRiskAssessment(risk.id, { title: e.target.value })}
                       className="w-full p-2 rounded-md border border-input bg-background font-semibold"
-                      placeholder="Risk title"
+                      placeholder="Risikotitel"
                     />
                   </div>
                 ) : (
@@ -432,21 +446,21 @@ export default function ReportPage() {
                       onChange={(e) => updateRiskAssessment(risk.id, { severity: e.target.value })}
                       className="p-1 rounded-md border border-input bg-background text-sm"
                     >
-                      <option value="High">High Risk</option>
-                      <option value="Medium">Medium Risk</option>
-                      <option value="Low">Low Risk</option>
+                      <option value="High">Hohes Risiko</option>
+                      <option value="Medium">Mittleres Risiko</option>
+                      <option value="Low">Niedriges Risiko</option>
                     </select>
                     <button
                       onClick={() => deleteRiskAssessment(risk.id)}
                       className="ml-2 p-1 text-destructive hover:bg-destructive/10 rounded-md"
-                      title="Delete risk"
+                      title="Risiko löschen"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
                 ) : (
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${getSeverityColor(risk.severity)}`}>
-                    {risk.severity} Risk
+                    {translateSeverity(risk.severity)}es Risiko
                   </span>
                 )}
               </div>
@@ -457,7 +471,7 @@ export default function ReportPage() {
                     onChange={(e) => updateRiskAssessment(risk.id, { description: e.target.value })}
                     className="w-full p-2 rounded-md border border-input bg-background mb-4"
                     rows={3}
-                    placeholder="Risk description"
+                    placeholder="Risikobeschreibung"
                   />
                 ) : (
                   <p className="mb-4">{risk.description}</p>
@@ -465,7 +479,7 @@ export default function ReportPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   <div className="bg-background p-3 rounded-md">
-                    <h4 className="text-sm font-medium text-muted-foreground">Impact Areas</h4>
+                    <h4 className="text-sm font-medium text-muted-foreground">Auswirkungsbereiche</h4>
                     {isEditing ? (
                       <input
                         type="text"
@@ -476,7 +490,7 @@ export default function ReportPage() {
                           })
                         }
                         className="w-full p-2 mt-1 rounded-md border border-input bg-background text-sm"
-                        placeholder="Impact areas (comma separated)"
+                        placeholder="Auswirkungsbereiche (durch Komma getrennt)"
                       />
                     ) : (
                       <ul className="mt-1 list-disc list-inside">
@@ -489,14 +503,14 @@ export default function ReportPage() {
                     )}
                   </div>
                   <div className="bg-background p-3 rounded-md">
-                    <h4 className="text-sm font-medium text-muted-foreground">Potential Consequences</h4>
+                    <h4 className="text-sm font-medium text-muted-foreground">Mögliche Konsequenzen</h4>
                     {isEditing ? (
                       <input
                         type="text"
                         value={risk.potentialConsequences}
                         onChange={(e) => updateRiskAssessment(risk.id, { potentialConsequences: e.target.value })}
                         className="w-full p-2 mt-1 rounded-md border border-input bg-background text-sm"
-                        placeholder="Potential consequences"
+                        placeholder="Mögliche Konsequenzen"
                       />
                     ) : (
                       <p className="text-sm mt-1">{risk.potentialConsequences}</p>
@@ -507,14 +521,14 @@ export default function ReportPage() {
                 {/* Recommendations for this risk */}
                 <div className="mt-4">
                   <div className="flex items-center justify-between border-b pb-2 mb-3">
-                    <h4 className="text-sm font-medium">Recommendations</h4>
+                    <h4 className="text-sm font-medium">Empfehlungen</h4>
                     {isEditing && (
                       <button
                         onClick={() => addSuggestion(risk.id)}
                         className="inline-flex items-center px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
                       >
                         <Plus className="h-3 w-3 mr-1" />
-                        Add Recommendation
+                        Empfehlung hinzufügen
                       </button>
                     )}
                   </div>
@@ -533,49 +547,49 @@ export default function ReportPage() {
                                 onChange={(e) => updateSuggestion(suggestion.id, { description: e.target.value })}
                                 className="w-full p-2 rounded-md border border-input bg-background text-sm"
                                 rows={2}
-                                placeholder="Recommendation description"
+                                placeholder="Empfehlungsbeschreibung"
                               />
                               <button
                                 onClick={() => deleteSuggestion(suggestion.id)}
                                 className="ml-2 p-1 text-destructive hover:bg-destructive/10 rounded-md self-start"
-                                title="Delete recommendation"
+                                title="Empfehlung löschen"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </button>
                             </div>
                             <div className="grid grid-cols-3 gap-2">
                               <div>
-                                <label className="text-xs text-muted-foreground">Priority</label>
+                                <label className="text-xs text-muted-foreground">Priorität</label>
                                 <select
                                   value={suggestion.priority}
                                   onChange={(e) => updateSuggestion(suggestion.id, { priority: e.target.value })}
                                   className="w-full p-1 rounded-md border border-input bg-background text-xs"
                                 >
-                                  <option value="High">High</option>
-                                  <option value="Medium">Medium</option>
-                                  <option value="Low">Low</option>
+                                  <option value="High">Hoch</option>
+                                  <option value="Medium">Mittel</option>
+                                  <option value="Low">Niedrig</option>
                                 </select>
                               </div>
                               <div>
-                                <label className="text-xs text-muted-foreground">Est. Cost</label>
+                                <label className="text-xs text-muted-foreground">Geschätzte Kosten</label>
                                 <select
                                   value={suggestion.estimatedCost}
                                   onChange={(e) => updateSuggestion(suggestion.id, { estimatedCost: e.target.value })}
                                   className="w-full p-1 rounded-md border border-input bg-background text-xs"
                                 >
-                                  <option value="High">High</option>
-                                  <option value="Medium">Medium</option>
-                                  <option value="Low">Low</option>
+                                  <option value="High">Hoch</option>
+                                  <option value="Medium">Mittel</option>
+                                  <option value="Low">Niedrig</option>
                                 </select>
                               </div>
                               <div>
-                                <label className="text-xs text-muted-foreground">Timeframe</label>
+                                <label className="text-xs text-muted-foreground">Zeitrahmen</label>
                                 <input
                                   type="text"
                                   value={suggestion.timeframe}
                                   onChange={(e) => updateSuggestion(suggestion.id, { timeframe: e.target.value })}
                                   className="w-full p-1 rounded-md border border-input bg-background text-xs"
-                                  placeholder="e.g. 1-2 months"
+                                  placeholder="z.B. 1-2 Monate"
                                 />
                               </div>
                             </div>
@@ -586,16 +600,16 @@ export default function ReportPage() {
                             <div className="flex flex-wrap gap-3 mt-2">
                               <span className="text-xs inline-flex items-center">
                                 <span className={`font-medium ${getPriorityColor(suggestion.priority)}`}>
-                                  Priority:
+                                  Priorität:
                                 </span>
-                                <span className="ml-1">{suggestion.priority}</span>
+                                <span className="ml-1">{translateSeverity(suggestion.priority)}</span>
                               </span>
                               <span className="text-xs inline-flex items-center">
-                                <span className="font-medium">Est. Cost:</span>
-                                <span className="ml-1">{suggestion.estimatedCost}</span>
+                                <span className="font-medium">Geschätzte Kosten:</span>
+                                <span className="ml-1">{translateSeverity(suggestion.estimatedCost)}</span>
                               </span>
                               <span className="text-xs inline-flex items-center">
-                                <span className="font-medium">Timeframe:</span>
+                                <span className="font-medium">Zeitrahmen:</span>
                                 <span className="ml-1">{suggestion.timeframe}</span>
                               </span>
                             </div>
@@ -613,7 +627,7 @@ export default function ReportPage() {
       {/* Conclusion */}
       <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
         <div className="bg-muted/30 px-4 py-3 border-b border-border">
-          <h2 className="font-medium">Conclusion</h2>
+          <h2 className="font-medium">Fazit</h2>
         </div>
         <div className="p-6">
           {isEditing ? (
@@ -632,7 +646,7 @@ export default function ReportPage() {
       <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
         <div className="p-6">
           <div className="flex flex-col items-end">
-            <p className="text-sm text-muted-foreground">Prepared by:</p>
+            <p className="text-sm text-muted-foreground">Erstellt von:</p>
             <p className="font-medium">{caseData.assignedEmployee.name}</p>
             <p className="text-sm text-muted-foreground">{caseData.assignedEmployee.position}</p>
             <p className="text-sm text-muted-foreground">{new Date(reportData.date).toLocaleDateString()}</p>

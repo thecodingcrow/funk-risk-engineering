@@ -12,8 +12,22 @@ interface ReportSectionProps {
 export default function ReportSection({ report, isEditing, onUpdate }: ReportSectionProps) {
   const [editingRiskId, setEditingRiskId] = useState<string | null>(null)
   const [editingSuggestionId, setEditingSuggestionId] = useState<string | null>(null)
-  const [newRisk, setNewRisk] = useState({ title: "", description: "", severity: "Medium" })
+  const [newRisk, setNewRisk] = useState({ title: "", description: "", severity: "Mittel" })
   const [newSuggestion, setNewSuggestion] = useState({ riskId: "", description: "" })
+
+  // Function to translate severity
+  const translateSeverity = (severity: string) => {
+    switch (severity) {
+      case "High":
+        return "Hoch"
+      case "Medium":
+        return "Mittel"
+      case "Low":
+        return "Niedrig"
+      default:
+        return severity
+    }
+  }
 
   const handleAddRisk = () => {
     if (!newRisk.title || !newRisk.description) return
@@ -32,7 +46,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
       ],
     })
 
-    setNewRisk({ title: "", description: "", severity: "Medium" })
+    setNewRisk({ title: "", description: "", severity: "Mittel" })
   }
 
   const handleAddSuggestion = () => {
@@ -99,7 +113,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
     <div className="bg-card p-6 rounded-lg shadow">
       <h2 className="text-xl font-semibold flex items-center">
         <FileText className="h-5 w-5 mr-2" />
-        Report: {report.title}
+        Bericht: {report.title}
       </h2>
 
       <p className="mt-2 text-muted-foreground">{report.overview}</p>
@@ -107,7 +121,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
       <div className="mt-6">
         <h3 className="text-lg font-medium flex items-center">
           <AlertTriangle className="h-4 w-4 mr-2" />
-          Risk Assessments
+          Risikobewertungen
         </h3>
 
         <div className="mt-4 space-y-4">
@@ -116,7 +130,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
               {editingRiskId === risk.id ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Title</label>
+                    <label className="block text-sm font-medium mb-1">Titel</label>
                     <input
                       type="text"
                       value={risk.title}
@@ -125,7 +139,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Description</label>
+                    <label className="block text-sm font-medium mb-1">Beschreibung</label>
                     <textarea
                       value={risk.description}
                       onChange={(e) => handleUpdateRisk(risk.id, { description: e.target.value })}
@@ -134,15 +148,15 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Severity</label>
+                    <label className="block text-sm font-medium mb-1">Schweregrad</label>
                     <select
                       value={risk.severity}
                       onChange={(e) => handleUpdateRisk(risk.id, { severity: e.target.value })}
                       className="w-full p-2 rounded-md border border-input bg-background"
                     >
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
-                      <option value="High">High</option>
+                      <option value="Low">Niedrig</option>
+                      <option value="Medium">Mittel</option>
+                      <option value="High">Hoch</option>
                     </select>
                   </div>
                   <div className="flex justify-end space-x-2">
@@ -150,13 +164,13 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                       onClick={() => setEditingRiskId(null)}
                       className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md"
                     >
-                      Cancel
+                      Abbrechen
                     </button>
                     <button
                       onClick={() => setEditingRiskId(null)}
                       className="px-3 py-1 bg-primary text-primary-foreground rounded-md"
                     >
-                      Save
+                      Speichern
                     </button>
                   </div>
                 </div>
@@ -174,7 +188,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                               : "bg-green-500 text-white"
                         }`}
                       >
-                        {risk.severity}
+                        {translateSeverity(risk.severity)}
                       </span>
                     </h4>
 
@@ -200,7 +214,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
               )}
 
               <div className="mt-3">
-                <h5 className="text-sm font-medium">Suggestions:</h5>
+                <h5 className="text-sm font-medium">Empfehlungen:</h5>
                 <ul className="mt-2 space-y-2">
                   {report.suggestions
                     .filter((suggestion: any) => suggestion.riskId === risk.id)
@@ -209,7 +223,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                         {editingSuggestionId === suggestion.id ? (
                           <div className="space-y-3">
                             <div>
-                              <label className="block text-sm font-medium mb-1">Description</label>
+                              <label className="block text-sm font-medium mb-1">Beschreibung</label>
                               <textarea
                                 value={suggestion.description}
                                 onChange={(e) => handleUpdateSuggestion(suggestion.id, { description: e.target.value })}
@@ -222,13 +236,13 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                                 onClick={() => setEditingSuggestionId(null)}
                                 className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md"
                               >
-                                Cancel
+                                Abbrechen
                               </button>
                               <button
                                 onClick={() => setEditingSuggestionId(null)}
                                 className="px-3 py-1 bg-primary text-primary-foreground rounded-md"
                               >
-                                Save
+                                Speichern
                               </button>
                             </div>
                           </div>
@@ -262,14 +276,14 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                                 suggestion.customerResponse.followed ? "text-green-500" : "text-red-500"
                               }`}
                             >
-                              {suggestion.customerResponse.followed ? "Followed" : "Not Followed"}
+                              {suggestion.customerResponse.followed ? "Umgesetzt" : "Nicht umgesetzt"}
                             </p>
                             {suggestion.customerResponse.explanation && (
                               <p className="mt-1">{suggestion.customerResponse.explanation}</p>
                             )}
                             {suggestion.customerResponse.attachments.length > 0 && (
                               <div className="mt-1">
-                                <p className="font-medium">Attachments:</p>
+                                <p className="font-medium">Anhänge:</p>
                                 <ul className="list-disc list-inside">
                                   {suggestion.customerResponse.attachments.map((attachment: any) => (
                                     <li key={attachment.id}>{attachment.fileName}</li>
@@ -290,38 +304,38 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
         {isEditing && (
           <>
             <div className="mt-6 p-4 bg-background rounded-md">
-              <h4 className="font-medium">Add New Risk</h4>
+              <h4 className="font-medium">Neues Risiko hinzufügen</h4>
               <div className="mt-3 space-y-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Title</label>
+                  <label className="block text-sm font-medium mb-1">Titel</label>
                   <input
                     type="text"
                     value={newRisk.title}
                     onChange={(e) => setNewRisk({ ...newRisk, title: e.target.value })}
                     className="w-full p-2 rounded-md border border-input bg-background"
-                    placeholder="Risk title"
+                    placeholder="Risikotitel"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Description</label>
+                  <label className="block text-sm font-medium mb-1">Beschreibung</label>
                   <textarea
                     value={newRisk.description}
                     onChange={(e) => setNewRisk({ ...newRisk, description: e.target.value })}
                     className="w-full p-2 rounded-md border border-input bg-background"
                     rows={2}
-                    placeholder="Describe the risk"
+                    placeholder="Beschreiben Sie das Risiko"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Severity</label>
+                  <label className="block text-sm font-medium mb-1">Schweregrad</label>
                   <select
                     value={newRisk.severity}
                     onChange={(e) => setNewRisk({ ...newRisk, severity: e.target.value })}
                     className="w-full p-2 rounded-md border border-input bg-background"
                   >
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
+                    <option value="Low">Niedrig</option>
+                    <option value="Medium">Mittel</option>
+                    <option value="High">Hoch</option>
                   </select>
                 </div>
                 <button
@@ -329,22 +343,22 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                   className="flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-md"
                 >
                   <Plus className="h-4 w-4 mr-1" />
-                  Add Risk
+                  Risiko hinzufügen
                 </button>
               </div>
             </div>
 
             <div className="mt-4 p-4 bg-background rounded-md">
-              <h4 className="font-medium">Add New Suggestion</h4>
+              <h4 className="font-medium">Neue Empfehlung hinzufügen</h4>
               <div className="mt-3 space-y-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Related Risk</label>
+                  <label className="block text-sm font-medium mb-1">Zugehöriges Risiko</label>
                   <select
                     value={newSuggestion.riskId}
                     onChange={(e) => setNewSuggestion({ ...newSuggestion, riskId: e.target.value })}
                     className="w-full p-2 rounded-md border border-input bg-background"
                   >
-                    <option value="">Select a risk</option>
+                    <option value="">Risiko auswählen</option>
                     {report.riskAssessments.map((risk: any) => (
                       <option key={risk.id} value={risk.id}>
                         {risk.title}
@@ -353,13 +367,13 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Description</label>
+                  <label className="block text-sm font-medium mb-1">Beschreibung</label>
                   <textarea
                     value={newSuggestion.description}
                     onChange={(e) => setNewSuggestion({ ...newSuggestion, description: e.target.value })}
                     className="w-full p-2 rounded-md border border-input bg-background"
                     rows={2}
-                    placeholder="Describe the suggestion"
+                    placeholder="Beschreiben Sie die Empfehlung"
                   />
                 </div>
                 <button
@@ -367,7 +381,7 @@ export default function ReportSection({ report, isEditing, onUpdate }: ReportSec
                   className="flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-md"
                 >
                   <Plus className="h-4 w-4 mr-1" />
-                  Add Suggestion
+                  Empfehlung hinzufügen
                 </button>
               </div>
             </div>

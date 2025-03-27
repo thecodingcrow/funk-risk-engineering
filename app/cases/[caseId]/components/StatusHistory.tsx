@@ -5,11 +5,25 @@ interface StatusHistoryProps {
 }
 
 export default function StatusHistory({ history }: StatusHistoryProps) {
+  // Function to translate status to German
+  const translateStatus = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "Offen"
+      case "In Progress":
+        return "In Bearbeitung"
+      case "Closed":
+        return "Abgeschlossen"
+      default:
+        return status
+    }
+  }
+
   return (
     <div className="bg-card p-6 rounded-lg shadow">
       <h2 className="text-xl font-semibold flex items-center">
         <History className="h-5 w-5 mr-2" />
-        Status History
+        Statusverlauf
       </h2>
 
       <div className="mt-4">
@@ -33,9 +47,11 @@ export default function StatusHistory({ history }: StatusHistoryProps) {
               />
 
               <div>
-                <p className="font-medium">{entry.status}</p>
+                <p className="font-medium">{translateStatus(entry.status)}</p>
                 <p className="text-xs text-muted-foreground">{new Date(entry.timestamp).toLocaleString()}</p>
-                {entry.notes && <p className="mt-1 text-sm">{entry.notes}</p>}
+                {entry.notes && (
+                  <p className="mt-1 text-sm">{entry.notes === "Case created" ? "Fall erstellt" : entry.notes}</p>
+                )}
               </div>
             </li>
           ))}

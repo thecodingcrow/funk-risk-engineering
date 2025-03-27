@@ -43,7 +43,7 @@ export default function Login() {
     setError("")
 
     if (!email || !password) {
-      setError("Please enter both email and password")
+      setError("Bitte geben Sie E-Mail und Passwort ein")
       return
     }
 
@@ -53,10 +53,10 @@ export default function Login() {
       const success = await login(email, password, rememberMe)
 
       if (!success) {
-        setError("Invalid email or password")
+        setError("Ungültige E-Mail oder Passwort")
       }
     } catch (err) {
-      setError("An error occurred during login")
+      setError("Bei der Anmeldung ist ein Fehler aufgetreten")
     } finally {
       setIsSubmitting(false)
     }
@@ -67,7 +67,7 @@ export default function Login() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center p-4">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        <p className="mt-4 text-muted-foreground">Redirecting to dashboard...</p>
+        <p className="mt-4 text-muted-foreground">Weiterleitung zum Dashboard...</p>
       </div>
     )
   }
@@ -82,8 +82,8 @@ export default function Login() {
                 <Briefcase className="h-6 w-6 text-primary" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold">Case Management System</CardTitle>
-            <CardDescription>Enter your credentials to access your account</CardDescription>
+            <CardTitle className="text-2xl font-bold">FUNK Risikomanagement</CardTitle>
+            <CardDescription>Geben Sie Ihre Anmeldedaten ein, um auf Ihr Konto zuzugreifen</CardDescription>
           </CardHeader>
 
           <form onSubmit={handleSubmit}>
@@ -96,13 +96,13 @@ export default function Login() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">E-Mail</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@company.com"
+                    placeholder="name@firma.com"
                     className="pl-10"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -113,9 +113,9 @@ export default function Login() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Passwort</Label>
                   <Link href="#" className="text-sm text-primary hover:underline">
-                    Forgot password?
+                    Passwort vergessen?
                   </Link>
                 </div>
                 <div className="relative">
@@ -147,20 +147,20 @@ export default function Login() {
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                 />
                 <Label htmlFor="remember" className="text-sm font-normal">
-                  Remember me for 30 days
+                  Angemeldet bleiben für 30 Tage
                 </Label>
               </div>
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
               <Button type="submit" className="w-full" disabled={isSubmitting || isLoading}>
-                {isSubmitting ? "Signing in..." : "Sign in"}
+                {isSubmitting ? "Anmeldung..." : "Anmelden"}
               </Button>
 
               <p className="text-center text-sm text-muted-foreground">
-                Don't have an account?{" "}
+                Kein Konto?{" "}
                 <Link href="#" className="text-primary hover:underline">
-                  Contact your administrator
+                  Kontaktieren Sie Ihren Administrator
                 </Link>
               </p>
             </CardFooter>

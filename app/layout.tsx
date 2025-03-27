@@ -11,8 +11,8 @@ const notoSans = Noto_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Case Management System",
-  description: "Employee portal for case management",
+  title: "FUNK Risikomanagement",
+  description: "Mitarbeiterportal für Fallverwaltung",
 }
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="de" className="dark">
       <body className={notoSans.className}>
         <AuthProvider>
           <Layout>{children}</Layout>

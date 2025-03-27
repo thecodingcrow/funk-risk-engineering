@@ -5,6 +5,20 @@ interface CaseHeaderProps {
 }
 
 export default function CaseHeader({ caseData }: CaseHeaderProps) {
+  // Function to translate status
+  const translateStatus = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "Offen"
+      case "In Progress":
+        return "In Bearbeitung"
+      case "Closed":
+        return "Abgeschlossen"
+      default:
+        return status
+    }
+  }
+
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between">
       <div>
@@ -19,20 +33,20 @@ export default function CaseHeader({ caseData }: CaseHeaderProps) {
                   : "bg-green-500 text-white"
             }`}
           >
-            {caseData.status}
+            {translateStatus(caseData.status)}
           </span>
         </div>
-        <p className="text-muted-foreground mt-1">Case #{caseData.id}</p>
+        <p className="text-muted-foreground mt-1">Fall #{caseData.id}</p>
       </div>
 
       <div className="mt-4 md:mt-0 flex flex-col items-start md:items-end">
         <div className="flex items-center text-sm text-muted-foreground">
           <Clock className="h-4 w-4 mr-1" />
-          <span>Created: {new Date(caseData.createdAt).toLocaleDateString()}</span>
+          <span>Erstellt: {new Date(caseData.createdAt).toLocaleDateString()}</span>
         </div>
         <div className="flex items-center text-sm text-muted-foreground mt-1">
           <User className="h-4 w-4 mr-1" />
-          <span>Assigned to: {caseData.assignedEmployee?.name}</span>
+          <span>Zugewiesen an: {caseData.assignedEmployee?.name}</span>
         </div>
       </div>
     </div>

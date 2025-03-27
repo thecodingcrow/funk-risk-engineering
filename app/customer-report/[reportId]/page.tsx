@@ -42,29 +42,29 @@ export default function CustomerReportPage() {
           customer: customerData,
           location: locationData,
           report: {
-            title: `${caseItem.title} Risk Assessment Report`,
+            title: `${caseItem.title} Risikobewertungsbericht`,
             overview:
-              "This report assesses various risks and provides recommendations for mitigation. Please review each recommendation and indicate whether you have implemented it.",
+              "Dieser Bericht bewertet verschiedene Risiken und bietet Empfehlungen zur Risikominderung. Bitte überprüfen Sie jede Empfehlung und geben Sie an, ob Sie diese umgesetzt haben.",
             riskAssessments: [
               {
                 id: "risk-1",
-                title: "Safety Concerns",
+                title: "Sicherheitsbedenken",
                 description:
-                  "Several safety issues were identified during the inspection, including inadequate emergency exits, missing fire extinguishers, and poor lighting in stairwells.",
+                  "Bei der Inspektion wurden mehrere Sicherheitsprobleme festgestellt, darunter unzureichende Notausgänge, fehlende Feuerlöscher und schlechte Beleuchtung in Treppenhäusern.",
                 severity: "High",
               },
               {
                 id: "risk-2",
-                title: "Maintenance Issues",
+                title: "Wartungsprobleme",
                 description:
-                  "Regular maintenance procedures are not being followed for critical equipment. Documentation shows gaps in maintenance schedules.",
+                  "Regelmäßige Wartungsverfahren werden für kritische Geräte nicht eingehalten. Die Dokumentation zeigt Lücken in den Wartungsplänen.",
                 severity: "Medium",
               },
               {
                 id: "risk-3",
-                title: "Data Security Vulnerabilities",
+                title: "Datensicherheitslücken",
                 description:
-                  "The assessment identified several potential vulnerabilities in the data security protocols including outdated software and weak password policies.",
+                  "Die Bewertung hat mehrere potenzielle Schwachstellen in den Datensicherheitsprotokollen identifiziert, darunter veraltete Software und schwache Passwortrichtlinien.",
                 severity: "High",
               },
             ],
@@ -73,10 +73,10 @@ export default function CustomerReportPage() {
                 id: "sug-1",
                 riskId: "risk-1",
                 description:
-                  "Implement a comprehensive safety training program for all employees. Ensure all emergency exits are clearly marked and unobstructed.",
+                  "Implementieren Sie ein umfassendes Sicherheitsschulungsprogramm für alle Mitarbeiter. Stellen Sie sicher, dass alle Notausgänge deutlich gekennzeichnet und nicht blockiert sind.",
                 priority: "High",
                 estimatedCost: "Medium",
-                timeframe: "1-3 months",
+                timeframe: "1-3 Monate",
                 customerResponse: {
                   followed: null,
                   explanation: "",
@@ -87,10 +87,10 @@ export default function CustomerReportPage() {
                 id: "sug-2",
                 riskId: "risk-2",
                 description:
-                  "Create a maintenance schedule and assign responsible personnel. Implement a digital maintenance tracking system.",
+                  "Erstellen Sie einen Wartungsplan und weisen Sie verantwortliches Personal zu. Implementieren Sie ein digitales Wartungsverfolgungssystem.",
                 priority: "Medium",
                 estimatedCost: "Low",
-                timeframe: "1-2 months",
+                timeframe: "1-2 Monate",
                 customerResponse: {
                   followed: null,
                   explanation: "",
@@ -101,10 +101,10 @@ export default function CustomerReportPage() {
                 id: "sug-3",
                 riskId: "risk-3",
                 description:
-                  "Update all software to the latest versions and implement a regular update schedule. Strengthen password policies.",
+                  "Aktualisieren Sie alle Software auf die neuesten Versionen und implementieren Sie einen regelmäßigen Aktualisierungsplan. Stärken Sie die Passwortrichtlinien.",
                 priority: "High",
                 estimatedCost: "Medium",
-                timeframe: "1 month",
+                timeframe: "1 Monat",
                 customerResponse: {
                   followed: null,
                   explanation: "",
@@ -134,10 +134,10 @@ export default function CustomerReportPage() {
   if (!isValid) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        <h1 className="text-2xl font-bold text-red-500">Invalid or Expired Link</h1>
-        <p className="mt-2">The link you are trying to access is invalid or has expired.</p>
+        <h1 className="text-2xl font-bold text-red-500">Ungültiger oder abgelaufener Link</h1>
+        <p className="mt-2">Der Link, auf den Sie zugreifen möchten, ist ungültig oder abgelaufen.</p>
         <p className="mt-1 text-sm text-muted-foreground">
-          Please contact your risk assessment provider for a new link.
+          Bitte kontaktieren Sie Ihren Risikobewertungsanbieter für einen neuen Link.
         </p>
       </div>
     )
@@ -146,8 +146,8 @@ export default function CustomerReportPage() {
   if (!caseData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        <h1 className="text-2xl font-bold text-red-500">Report Not Found</h1>
-        <p className="mt-2">The requested report could not be found.</p>
+        <h1 className="text-2xl font-bold text-red-500">Bericht nicht gefunden</h1>
+        <p className="mt-2">Der angeforderte Bericht konnte nicht gefunden werden.</p>
       </div>
     )
   }
@@ -157,10 +157,10 @@ export default function CustomerReportPage() {
       caseData={caseData}
       onSubmit={(updatedCase) => {
         // In a real app, this would send the data to your API
-        console.log("Customer submitted responses:", updatedCase)
+        console.log("Kunde hat Antworten eingereicht:", updatedCase)
 
         // Show success message
-        alert("Thank you for your submission! Your responses have been recorded.")
+        alert("Vielen Dank für Ihre Einreichung! Ihre Antworten wurden erfasst.")
 
         // In a real app, you might redirect to a thank you page
       }}

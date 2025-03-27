@@ -29,11 +29,25 @@ export default function LocationDetail() {
   }, [customerId, locationId])
 
   if (isLoading) {
-    return <div className="p-8">Loading location data...</div>
+    return <div className="p-8">Standortdaten werden geladen...</div>
   }
 
   if (!customer || !location) {
-    return <div className="p-8">Location not found</div>
+    return <div className="p-8">Standort nicht gefunden</div>
+  }
+
+  // Function to translate status
+  const translateStatus = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "Offen"
+      case "In Progress":
+        return "In Bearbeitung"
+      case "Closed":
+        return "Abgeschlossen"
+      default:
+        return status
+    }
   }
 
   return (
@@ -41,7 +55,7 @@ export default function LocationDetail() {
       <div className="flex items-center mb-4">
         <Link href={`/customers/${customerId}`} className="flex items-center text-primary hover:underline">
           <ArrowLeft className="mr-1 h-4 w-4" />
-          Back to {customer.name}
+          Zurück zu {customer.name}
         </Link>
       </div>
 
@@ -68,7 +82,7 @@ export default function LocationDetail() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold flex items-center">
             <Briefcase className="mr-2 h-5 w-5" />
-            Cases ({cases.length})
+            Fälle ({cases.length})
           </h2>
 
           <Link
@@ -76,14 +90,16 @@ export default function LocationDetail() {
             className="flex items-center px-3 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
             <Plus className="mr-1 h-4 w-4" />
-            New Case
+            Neuen Fall erstellen
           </Link>
         </div>
 
         {cases.length === 0 ? (
           <div className="p-4 bg-background rounded-md text-center">
-            <p className="text-muted-foreground">No cases found for this location.</p>
-            <p className="text-sm mt-2">Click the "New Case" button to create a case for this location.</p>
+            <p className="text-muted-foreground">Keine Fälle für diesen Standort gefunden.</p>
+            <p className="text-sm mt-2">
+              Klicken Sie auf "Neuen Fall erstellen", um einen Fall für diesen Standort zu erstellen.
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -97,7 +113,7 @@ export default function LocationDetail() {
                   <div>
                     <h3 className="font-medium">{caseItem.title}</h3>
                     <p className="text-xs text-muted-foreground">
-                      Created: {new Date(caseItem.createdAt).toLocaleDateString()}
+                      Erstellt: {new Date(caseItem.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                   <span
@@ -109,7 +125,7 @@ export default function LocationDetail() {
                           : "bg-green-500 text-white"
                     }`}
                   >
-                    {caseItem.status}
+                    {translateStatus(caseItem.status)}
                   </span>
                 </div>
               </Link>
@@ -119,21 +135,21 @@ export default function LocationDetail() {
       </div>
 
       <div className="bg-card p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">Location Details</h2>
+        <h2 className="text-xl font-semibold mb-4">Standortdetails</h2>
 
         <div className="space-y-4">
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground">Address</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Adresse</h3>
             <p>{location.address}</p>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground">Customer</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Kunde</h3>
             <p>{customer.name}</p>
           </div>
 
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground">Contact</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Kontakt</h3>
             <p>{customer.phone}</p>
             <p>{customer.email}</p>
           </div>

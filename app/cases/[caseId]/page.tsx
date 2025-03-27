@@ -11,16 +11,16 @@ export default function CaseDetail({ params }: { params: { caseId: string } }) {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Case: {caseId}</h1>
+      <h1 className="text-2xl font-bold mb-4">Fall: {caseId}</h1>
       <div className="bg-card p-6 rounded-lg shadow mb-6">
         <p>
-          <strong>Customer:</strong> Customer {caseId}
+          <strong>Kunde:</strong> Kunde {caseId}
         </p>
         <p>
-          <strong>Status:</strong> Open
+          <strong>Status:</strong> Offen
         </p>
         <p>
-          <strong>Description:</strong> This is a sample case description
+          <strong>Beschreibung:</strong> Dies ist eine Beispielbeschreibung des Falls
         </p>
       </div>
 
@@ -29,13 +29,13 @@ export default function CaseDetail({ params }: { params: { caseId: string } }) {
           href="/cases"
           className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
         >
-          Back to Cases
+          Zurück zur Fallübersicht
         </Link>
         <Link
           href={`/cases/${caseId}/full-view`}
           className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
         >
-          View Full Case Details
+          Vollständige Falldetails anzeigen
         </Link>
       </div>
     </div>

@@ -18,26 +18,26 @@ export default function Cases() {
   const [searchTerm, setSearchTerm] = useState("")
   const [showFilters, setShowFilters] = useState(false)
 
-  // Apply filters
+  // Filter anwenden
   useEffect(() => {
     let result = [...cases]
 
-    // Filter by customer
+    // Nach Kunde filtern
     if (customerFilter) {
       result = result.filter((caseItem) => caseItem.customerId === customerFilter)
     }
 
-    // Filter by location
+    // Nach Standort filtern
     if (locationFilter) {
       result = result.filter((caseItem) => caseItem.locationId === locationFilter)
     }
 
-    // Filter by status
+    // Nach Status filtern
     if (statusFilter) {
       result = result.filter((caseItem) => caseItem.status === statusFilter)
     }
 
-    // Filter by search term
+    // Nach Suchbegriff filtern
     if (searchTerm) {
       const term = searchTerm.toLowerCase()
       result = result.filter(
@@ -51,7 +51,7 @@ export default function Cases() {
     setFilteredCases(result)
   }, [customerFilter, locationFilter, statusFilter, searchTerm])
 
-  // Clear all filters
+  // Alle Filter löschen
   const clearFilters = () => {
     setCustomerFilter(null)
     setLocationFilter(null)
@@ -59,14 +59,14 @@ export default function Cases() {
     setSearchTerm("")
   }
 
-  // Get status color
+  // Status-Farbe abrufen
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Open":
+      case "Offen":
         return "bg-blue-500 text-white"
-      case "In Progress":
+      case "In Bearbeitung":
         return "bg-yellow-500 text-black"
-      case "Closed":
+      case "Abgeschlossen":
         return "bg-green-500 text-white"
       default:
         return "bg-gray-500 text-white"
@@ -76,14 +76,14 @@ export default function Cases() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-        <h1 className="text-3xl font-bold">Cases</h1>
+        <h1 className="text-3xl font-bold">Fälle</h1>
 
         <Link
           href="/cases/new"
           className="mt-2 sm:mt-0 px-4 py-2 bg-primary text-primary-foreground rounded-custom hover:bg-primary/90 transition-colors flex items-center"
         >
           <Plus className="h-4 w-4 mr-1" />
-          Create New Case
+          Neuen Fall erstellen
         </Link>
       </div>
 
@@ -91,7 +91,7 @@ export default function Cases() {
         <div className="flex flex-col md:flex-row md:items-end gap-4">
           <div className="flex-1">
             <label htmlFor="search" className="block text-sm font-medium mb-1">
-              Search
+              Suche
             </label>
             <div className="relative">
               <input
@@ -99,7 +99,7 @@ export default function Cases() {
                 id="search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search cases..."
+                placeholder="Fälle durchsuchen..."
                 className="w-full p-2 pl-8 rounded-custom border border-input bg-background"
               />
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -111,7 +111,7 @@ export default function Cases() {
             className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors flex items-center"
           >
             <Filter className="h-4 w-4 mr-1" />
-            {showFilters ? "Hide Filters" : "Show Filters"}
+            {showFilters ? "Filter ausblenden" : "Filter anzeigen"}
           </button>
 
           {(customerFilter || locationFilter || statusFilter || searchTerm) && (
@@ -120,7 +120,7 @@ export default function Cases() {
               className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors"
             >
               <X className="h-4 w-4 mr-1 inline-block" />
-              Clear Filters
+              Filter löschen
             </button>
           )}
         </div>
@@ -129,7 +129,7 @@ export default function Cases() {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label htmlFor="customerFilter" className="block text-sm font-medium mb-1">
-                Customer
+                Kunde
               </label>
               <select
                 id="customerFilter"
@@ -137,7 +137,7 @@ export default function Cases() {
                 onChange={(e) => setCustomerFilter(e.target.value ? Number(e.target.value) : null)}
                 className="w-full p-2 rounded-custom border border-input bg-background"
               >
-                <option value="">All Customers</option>
+                <option value="">Alle Kunden</option>
                 {customers.map((customer) => (
                   <option key={customer.id} value={customer.id}>
                     {customer.name}
@@ -148,7 +148,7 @@ export default function Cases() {
 
             <div>
               <label htmlFor="locationFilter" className="block text-sm font-medium mb-1">
-                Location
+                Standort
               </label>
               <select
                 id="locationFilter"
@@ -156,7 +156,7 @@ export default function Cases() {
                 onChange={(e) => setLocationFilter(e.target.value || null)}
                 className="w-full p-2 rounded-custom border border-input bg-background"
               >
-                <option value="">All Locations</option>
+                <option value="">Alle Standorte</option>
                 {locations.map((location) => (
                   <option key={location.id} value={location.id}>
                     {location.name}
@@ -175,10 +175,10 @@ export default function Cases() {
                 onChange={(e) => setStatusFilter(e.target.value || null)}
                 className="w-full p-2 rounded-custom border border-input bg-background"
               >
-                <option value="">All Statuses</option>
-                <option value="Open">Open</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Closed">Closed</option>
+                <option value="">Alle Status</option>
+                <option value="Offen">Offen</option>
+                <option value="In Bearbeitung">In Bearbeitung</option>
+                <option value="Abgeschlossen">Abgeschlossen</option>
               </select>
             </div>
           </div>
@@ -186,20 +186,20 @@ export default function Cases() {
 
         {(customerFilter || locationFilter || statusFilter || searchTerm) && (
           <div className="mt-2 text-sm">
-            <span className="text-muted-foreground">Showing </span>
+            <span className="text-muted-foreground">Zeige </span>
             <span className="font-medium">{filteredCases.length}</span>
-            <span className="text-muted-foreground"> of </span>
+            <span className="text-muted-foreground"> von </span>
             <span className="font-medium">{cases.length}</span>
-            <span className="text-muted-foreground"> cases</span>
+            <span className="text-muted-foreground"> Fällen</span>
           </div>
         )}
       </div>
 
       {filteredCases.length === 0 ? (
         <div className="bg-card p-8 rounded-custom shadow text-center">
-          <p className="text-muted-foreground">No cases found matching your filters.</p>
+          <p className="text-muted-foreground">Keine Fälle gefunden, die Ihren Filtern entsprechen.</p>
           <button onClick={clearFilters} className="mt-2 text-primary hover:underline">
-            Clear filters and show all cases
+            Filter löschen und alle Fälle anzeigen
           </button>
         </div>
       ) : (

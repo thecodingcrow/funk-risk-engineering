@@ -19,13 +19,13 @@ export default function LocationsPage() {
   const [locationCases, setLocationCases] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState("")
 
-  // Update customer locations when customer changes
+  // Kundenstandorte aktualisieren, wenn sich der Kunde ändert
   useEffect(() => {
     if (selectedCustomerId) {
       const locations = getCustomerLocations(selectedCustomerId)
       setCustomerLocations(locations)
 
-      // Reset selected location if it doesn't belong to the new customer
+      // Ausgewählten Standort zurücksetzen, wenn er nicht zum neuen Kunden gehört
       if (selectedLocationId && !locations.some((loc) => loc.id === selectedLocationId)) {
         setSelectedLocationId(null)
         setLocationCases([])
@@ -37,7 +37,7 @@ export default function LocationsPage() {
     }
   }, [selectedCustomerId, selectedLocationId])
 
-  // Update location cases when location changes
+  // Standortfälle aktualisieren, wenn sich der Standort ändert
   useEffect(() => {
     if (selectedLocationId) {
       const cases = getCasesByLocation(selectedLocationId)
@@ -47,7 +47,7 @@ export default function LocationsPage() {
     }
   }, [selectedLocationId])
 
-  // Filter cases by search term
+  // Fälle nach Suchbegriff filtern
   const filteredCases = locationCases.filter((caseItem) => {
     if (!searchTerm) return true
     return caseItem.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,12 +55,12 @@ export default function LocationsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Locations</h1>
+      <h1 className="text-3xl font-bold">Standorte</h1>
 
       <div className="bg-card p-6 rounded-custom shadow">
         <div className="mb-6">
           <label htmlFor="customerSelect" className="block text-sm font-medium mb-2">
-            Select Customer
+            Kunde auswählen
           </label>
           <select
             id="customerSelect"
@@ -68,7 +68,7 @@ export default function LocationsPage() {
             onChange={(e) => setSelectedCustomerId(e.target.value ? Number(e.target.value) : null)}
             className="w-full md:w-1/3 p-2 rounded-custom border border-input bg-background"
           >
-            <option value="">All Customers</option>
+            <option value="">Alle Kunden</option>
             {customers.map((customer) => (
               <option key={customer.id} value={customer.id}>
                 {customer.name}
@@ -79,7 +79,7 @@ export default function LocationsPage() {
 
         <div className="mb-6">
           <label htmlFor="locationSelect" className="block text-sm font-medium mb-2">
-            Select Location
+            Standort auswählen
           </label>
           <select
             id="locationSelect"
@@ -88,7 +88,7 @@ export default function LocationsPage() {
             className="w-full md:w-1/3 p-2 rounded-custom border border-input bg-background"
             disabled={!selectedCustomerId && customerLocations.length === 0}
           >
-            <option value="">Select a location</option>
+            <option value="">Standort auswählen</option>
             {(customerLocations.length > 0 ? customerLocations : locations).map((location) => (
               <option key={location.id} value={location.id}>
                 {location.name} - {location.address}
@@ -108,7 +108,7 @@ export default function LocationsPage() {
                 <p className="text-muted-foreground">{getLocationById(selectedLocationId)?.address}</p>
                 {selectedCustomerId && (
                   <p className="text-sm mt-1">
-                    <span className="text-muted-foreground">Customer: </span>
+                    <span className="text-muted-foreground">Kunde: </span>
                     <Link href={`/customers/${selectedCustomerId}`} className="text-primary hover:underline">
                       {getCustomerById(selectedCustomerId)?.name}
                     </Link>
@@ -121,13 +121,13 @@ export default function LocationsPage() {
                   className="px-3 py-1 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors flex items-center"
                 >
                   <X className="mr-1 h-4 w-4" />
-                  Deselect
+                  Abwählen
                 </button>
                 <Link
                   href={`/customers/${selectedCustomerId || getLocationById(selectedLocationId)?.customerId}/locations/${selectedLocationId}`}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-custom hover:bg-primary/90 transition-colors"
                 >
-                  View Details
+                  Details anzeigen
                 </Link>
               </div>
             </div>
@@ -140,14 +140,14 @@ export default function LocationsPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
             <h2 className="text-xl font-semibold flex items-center">
               <Briefcase className="mr-2 h-5 w-5" />
-              Cases for {getLocationById(selectedLocationId)?.name}
+              Fälle für {getLocationById(selectedLocationId)?.name}
             </h2>
             <div className="mt-2 md:mt-0 relative w-full md:w-1/3">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search cases..."
+                placeholder="Fälle durchsuchen..."
                 className="w-full p-2 pl-8 rounded-custom border border-input bg-background"
               />
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -156,7 +156,7 @@ export default function LocationsPage() {
 
           {filteredCases.length === 0 ? (
             <div className="text-center py-8 bg-background rounded-custom">
-              <p className="text-muted-foreground">No cases found for this location.</p>
+              <p className="text-muted-foreground">Keine Fälle für diesen Standort gefunden.</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -176,9 +176,9 @@ export default function LocationsPage() {
                     </div>
                     <div
                       className={`mt-2 md:mt-0 status-pill ${
-                        caseItem.status === "Open"
+                        caseItem.status === "Offen"
                           ? "status-pill-open"
-                          : caseItem.status === "In Progress"
+                          : caseItem.status === "In Bearbeitung"
                             ? "status-pill-in-progress"
                             : "status-pill-closed"
                       }`}

@@ -11,15 +11,15 @@ export default function Sidebar() {
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: Home },
-    { href: "/customers", label: "Customers", icon: Users },
-    { href: "/cases", label: "Cases", icon: Briefcase },
-    { href: "/locations", label: "Locations", icon: MapPin },
-    { href: "/notifications", label: "Notifications", icon: Bell },
+    { href: "/customers", label: "Kunden", icon: Users },
+    { href: "/cases", label: "Fälle", icon: Briefcase },
+    { href: "/locations", label: "Standorte", icon: MapPin },
+    { href: "/notifications", label: "Benachrichtigungen", icon: Bell },
   ]
 
   return (
     <nav className="w-64 bg-card text-card-foreground h-screen overflow-y-auto p-4 flex flex-col border-r border-border">
-      <h2 className="text-xl font-bold mb-8">Case Management</h2>
+      <h2 className="text-xl font-bold mb-8">FUNK Risikomanagement</h2>
 
       {/* User info */}
       {user && (
@@ -50,7 +50,7 @@ export default function Sidebar() {
           className="flex items-center justify-center p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
         >
           <Plus className="mr-2 h-5 w-5" />
-          Create New Case
+          Neuen Fall erstellen
         </Link>
 
         <button
@@ -58,7 +58,7 @@ export default function Sidebar() {
           className="flex items-center justify-center w-full p-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
         >
           <LogOut className="mr-2 h-5 w-5" />
-          Logout
+          Abmelden
         </button>
       </div>
     </nav>

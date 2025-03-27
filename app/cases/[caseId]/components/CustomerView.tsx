@@ -59,7 +59,7 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
     )
 
     if (!allResponded) {
-      alert("Please respond to all recommendations before submitting.")
+      alert("Bitte beantworten Sie alle Empfehlungen, bevor Sie absenden.")
       return
     }
 
@@ -83,28 +83,42 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
   const totalCount = caseData.report.suggestions.length
   const progressPercentage = totalCount > 0 ? (respondedCount / totalCount) * 100 : 0
 
+  // Function to translate severity
+  const translateSeverity = (severity: string) => {
+    switch (severity) {
+      case "High":
+        return "Hoch"
+      case "Medium":
+        return "Mittel"
+      case "Low":
+        return "Niedrig"
+      default:
+        return severity
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-card p-6 rounded-lg shadow mb-6">
-        <h1 className="text-2xl font-bold">Risk Assessment Report</h1>
-        <p className="text-muted-foreground mt-2">For: {caseData.customer.name}</p>
-        <p className="text-muted-foreground">Location: {caseData.location.name}</p>
-        <p className="text-muted-foreground">Created: {new Date(caseData.createdAt).toLocaleDateString()}</p>
+        <h1 className="text-2xl font-bold">Risikobewertungsbericht</h1>
+        <p className="text-muted-foreground mt-2">Für: {caseData.customer.name}</p>
+        <p className="text-muted-foreground">Standort: {caseData.location.name}</p>
+        <p className="text-muted-foreground">Erstellt: {new Date(caseData.createdAt).toLocaleDateString()}</p>
       </div>
 
       {/* Progress indicator */}
       <div className="bg-card p-6 rounded-lg shadow mb-6">
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-medium">Your Progress</h2>
+          <h2 className="text-lg font-medium">Ihr Fortschritt</h2>
           <span className="text-sm font-medium">
-            {respondedCount} of {totalCount} completed
+            {respondedCount} von {totalCount} abgeschlossen
           </span>
         </div>
         <div className="w-full bg-muted rounded-full h-2.5">
           <div className="bg-primary h-2.5 rounded-full" style={{ width: `${progressPercentage}%` }}></div>
         </div>
         <p className="text-sm text-muted-foreground mt-2">
-          Please respond to all recommendations below and provide supporting documentation where applicable.
+          Bitte beantworten Sie alle Empfehlungen unten und stellen Sie gegebenenfalls unterstützende Dokumente bereit.
         </p>
       </div>
 
@@ -119,7 +133,7 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
       <div className="bg-card p-6 rounded-lg shadow mb-6">
         <h2 className="text-xl font-semibold flex items-center">
           <AlertTriangle className="h-5 w-5 mr-2" />
-          Risk Assessments & Recommendations
+          Risikobewertungen & Empfehlungen
         </h2>
 
         <div className="mt-4 space-y-6">
@@ -136,13 +150,13 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                         : "bg-green-500 text-white"
                   }`}
                 >
-                  {risk.severity}
+                  {translateSeverity(risk.severity)}
                 </span>
               </h3>
               <p className="mt-1 text-sm">{risk.description}</p>
 
               <div className="mt-4">
-                <h4 className="text-sm font-medium">Recommendations:</h4>
+                <h4 className="text-sm font-medium">Empfehlungen:</h4>
                 <ul className="mt-2 space-y-6">
                   {caseData.report.suggestions
                     .filter((suggestion: any) => suggestion.riskId === risk.id)
@@ -153,20 +167,21 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                             <p className="text-sm font-medium">{suggestion.description}</p>
                             {suggestion.priority && (
                               <p className="text-xs text-muted-foreground mt-1">
-                                Priority: <span className="font-medium">{suggestion.priority}</span> • Estimated Cost:{" "}
-                                <span className="font-medium">{suggestion.estimatedCost}</span> • Timeframe:{" "}
-                                <span className="font-medium">{suggestion.timeframe}</span>
+                                Priorität: <span className="font-medium">{translateSeverity(suggestion.priority)}</span>{" "}
+                                • Geschätzte Kosten:{" "}
+                                <span className="font-medium">{translateSeverity(suggestion.estimatedCost)}</span> •
+                                Zeitrahmen: <span className="font-medium">{suggestion.timeframe}</span>
                               </p>
                             )}
                           </div>
                         </div>
 
                         <div className="mt-3 p-3 bg-card rounded-md">
-                          <h5 className="text-sm font-medium">Your Response:</h5>
+                          <h5 className="text-sm font-medium">Ihre Antwort:</h5>
 
                           <div className="mt-2 space-y-3">
                             <div>
-                              <p className="text-sm mb-2">Have you implemented this recommendation?</p>
+                              <p className="text-sm mb-2">Haben Sie diese Empfehlung umgesetzt?</p>
                               <div className="flex space-x-4">
                                 <button
                                   onClick={() => handleResponseChange(suggestion.id, "followed", true)}
@@ -177,7 +192,7 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                                   }`}
                                 >
                                   <CheckCircle className="h-4 w-4 mr-1" />
-                                  Yes
+                                  Ja
                                 </button>
                                 <button
                                   onClick={() => handleResponseChange(suggestion.id, "followed", false)}
@@ -188,13 +203,13 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                                   }`}
                                 >
                                   <XCircle className="h-4 w-4 mr-1" />
-                                  No
+                                  Nein
                                 </button>
                               </div>
                             </div>
 
                             <div>
-                              <label className="block text-sm mb-1">Please explain your response:</label>
+                              <label className="block text-sm mb-1">Bitte erläutern Sie Ihre Antwort:</label>
                               <textarea
                                 value={responses[suggestion.id].explanation}
                                 onChange={(e) => handleResponseChange(suggestion.id, "explanation", e.target.value)}
@@ -202,10 +217,10 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                                 rows={3}
                                 placeholder={
                                   responses[suggestion.id].followed === true
-                                    ? "Describe how you implemented this recommendation..."
+                                    ? "Beschreiben Sie, wie Sie diese Empfehlung umgesetzt haben..."
                                     : responses[suggestion.id].followed === false
-                                      ? "Explain why you couldn't implement this recommendation..."
-                                      : "Provide details about your implementation..."
+                                      ? "Erklären Sie, warum Sie diese Empfehlung nicht umsetzen konnten..."
+                                      : "Geben Sie Details zu Ihrer Umsetzung an..."
                                 }
                               />
                             </div>
@@ -213,7 +228,7 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
                             <div>
                               <label className="block text-sm mb-1 flex items-center">
                                 <Paperclip className="h-4 w-4 mr-1" />
-                                Supporting documents:
+                                Unterstützende Dokumente:
                               </label>
                               <input
                                 type="file"
@@ -247,8 +262,8 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
       <div className="flex justify-between items-center">
         <p className="text-sm text-muted-foreground">
           {respondedCount === totalCount
-            ? "All recommendations have been addressed. You can now submit your responses."
-            : `Please address the remaining ${totalCount - respondedCount} recommendations.`}
+            ? "Alle Empfehlungen wurden beantwortet. Sie können jetzt Ihre Antworten absenden."
+            : `Bitte beantworten Sie die verbleibenden ${totalCount - respondedCount} Empfehlungen.`}
         </p>
         <button
           onClick={handleSubmit}
@@ -257,7 +272,7 @@ export default function CustomerView({ caseData, onSubmit }: CustomerViewProps) 
             respondedCount < totalCount ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          Submit Responses
+          Antworten absenden
         </button>
       </div>
     </div>

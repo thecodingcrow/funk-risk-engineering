@@ -33,7 +33,7 @@ ChartJS.register(
   Filler,
 )
 
-// Function to generate case activity data
+// Funktion zur Generierung von Fallaktivitätsdaten
 function generateCaseActivityData(days: number) {
   const data = []
   const today = new Date()
@@ -57,15 +57,15 @@ function generateCaseActivityData(days: number) {
   return data
 }
 
-// Function to calculate case statistics
+// Funktion zur Berechnung von Fallstatistiken
 function calculateCaseStats() {
-  const openCases = cases.filter((c) => c.status === "Open").length
-  const inProgressCases = cases.filter((c) => c.status === "In Progress").length
-  const closedCases = cases.filter((c) => c.status === "Closed").length
+  const openCases = cases.filter((c) => c.status === "Offen").length
+  const inProgressCases = cases.filter((c) => c.status === "In Bearbeitung").length
+  const closedCases = cases.filter((c) => c.status === "Abgeschlossen").length
   const totalCases = cases.length
-  const avgResolutionDays = 3.2 // In a real app, this would be calculated
+  const avgResolutionDays = 3.2 // In einer echten App würde dies berechnet werden
 
-  // Calculate cases by customer
+  // Fälle nach Kunde berechnen
   const casesByCustomer = customers
     .map((customer) => {
       const customerCases = cases.filter((c) => c.customerId === customer.id)
@@ -76,7 +76,7 @@ function calculateCaseStats() {
     })
     .sort((a, b) => b.count - a.count)
 
-  // Calculate cases by location
+  // Fälle nach Standort berechnen
   const casesByLocation = locations
     .map((location) => {
       const locationCases = cases.filter((c) => c.locationId === location.id)
@@ -86,7 +86,7 @@ function calculateCaseStats() {
       }
     })
     .sort((a, b) => b.count - a.count)
-    .slice(0, 5) // Top 5 locations
+    .slice(0, 5) // Top 5 Standorte
 
   return {
     openCases,
@@ -99,7 +99,7 @@ function calculateCaseStats() {
   }
 }
 
-// Dashboard widget types
+// Dashboard-Widget-Typen
 type WidgetType = "caseActivity" | "caseStatus" | "casesByCustomer" | "casesByLocation" | "caseStats"
 
 export default function Dashboard() {
@@ -120,60 +120,60 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>
 
-      {/* Case Statistics */}
+      {/* Fallstatistiken */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <StatCard
-          title="Total Cases"
+          title="Gesamtfälle"
           value={caseStats.totalCases.toString()}
           icon={<Briefcase className="h-8 w-8 text-blue-500" />}
         />
         <StatCard
-          title="Open Cases"
+          title="Offene Fälle"
           value={caseStats.openCases.toString()}
           icon={<Calendar className="h-8 w-8 text-yellow-500" />}
         />
         <StatCard
-          title="Active Customers"
+          title="Aktive Kunden"
           value={customers.length.toString()}
           icon={<Users className="h-8 w-8 text-green-500" />}
         />
         <StatCard
-          title="Avg. Resolution Time"
-          value={`${caseStats.avgResolutionDays} days`}
+          title="Durchschn. Bearbeitungszeit"
+          value={`${caseStats.avgResolutionDays} Tage`}
           icon={<Clock className="h-8 w-8 text-purple-500" />}
         />
       </div>
 
-      {/* Cases by Customer */}
+      {/* Fälle nach Kunde */}
       <div className="bg-card p-6 rounded-custom shadow">
-        <h2 className="text-xl font-semibold mb-4">Cases by Customer</h2>
+        <h2 className="text-xl font-semibold mb-4">Fälle nach Kunde</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {caseStats.casesByCustomer.slice(0, 6).map((customer, index) => (
             <div key={index} className="bg-background p-4 rounded-custom">
               <h3 className="font-medium">{customer.name}</h3>
               <p className="text-2xl font-bold mt-2">{customer.count}</p>
-              <p className="text-xs text-muted-foreground">cases</p>
+              <p className="text-xs text-muted-foreground">Fälle</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Top Locations */}
+      {/* Top-Standorte */}
       <div className="bg-card p-6 rounded-custom shadow">
-        <h2 className="text-xl font-semibold mb-4">Top 5 Locations by Case Volume</h2>
+        <h2 className="text-xl font-semibold mb-4">Top 5 Standorte nach Fallvolumen</h2>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {caseStats.casesByLocation.map((location, index) => (
             <div key={index} className="bg-background p-4 rounded-custom text-center">
               <h3 className="font-medium text-sm mb-2">{location.name}</h3>
               <p className="text-2xl font-bold">{location.count}</p>
-              <p className="text-xs text-muted-foreground">cases</p>
+              <p className="text-xs text-muted-foreground">Fälle</p>
             </div>
           ))}
         </div>
       </div>
 
       <div className="bg-card p-6 rounded-custom shadow">
-        <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+        <h2 className="text-xl font-semibold mb-4">Neueste Aktivitäten</h2>
         <ActivityFeed />
       </div>
     </div>
@@ -196,10 +196,10 @@ function StatCard({ title, value, icon }: { title: string; value: string; icon: 
 
 function ActivityFeed() {
   const activities = [
-    { id: 1, text: "New case opened for Acme Corp", time: "2 hours ago" },
-    { id: 2, text: "Case #1234 resolved", time: "4 hours ago" },
-    { id: 3, text: "New customer: TechStart Inc", time: "1 day ago" },
-    { id: 4, text: "Follow-up scheduled for case #5678", time: "2 days ago" },
+    { id: 1, text: "Neuer Fall eröffnet für Acme GmbH", time: "vor 2 Stunden" },
+    { id: 2, text: "Fall #1234 abgeschlossen", time: "vor 4 Stunden" },
+    { id: 3, text: "Neuer Kunde: TechStart AG", time: "vor 1 Tag" },
+    { id: 4, text: "Nachverfolgung geplant für Fall #5678", time: "vor 2 Tagen" },
   ]
 
   return (

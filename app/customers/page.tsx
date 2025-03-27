@@ -8,7 +8,7 @@ import { customers, getCustomerLocations, getCasesByCustomer } from "@/lib/data"
 export default function Customers() {
   const [searchTerm, setSearchTerm] = useState("")
 
-  // Filter customers based on search term
+  // Kunden basierend auf Suchbegriff filtern
   const filteredCustomers = customers.filter(
     (customer) =>
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -16,12 +16,12 @@ export default function Customers() {
       customer.email.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  // Function to get a unique color for each industry
+  // Funktion zum Abrufen einer eindeutigen Farbe für jede Branche
   const getIndustryColor = (industry: string) => {
     const colors = {
-      Retail: "border-blue-500",
-      Technology: "border-purple-500",
-      Services: "border-green-500",
+      Einzelhandel: "border-blue-500",
+      Technologie: "border-purple-500",
+      Dienstleistungen: "border-green-500",
       default: "border-gray-500",
     }
     return colors[industry as keyof typeof colors] || colors.default
@@ -30,14 +30,14 @@ export default function Customers() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-        <h1 className="text-3xl font-bold">Customers</h1>
+        <h1 className="text-3xl font-bold">Kunden</h1>
 
         <div className="mt-4 sm:mt-0 relative w-full sm:w-64 md:w-80">
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search customers..."
+            placeholder="Kunden durchsuchen..."
             className="w-full p-2 pl-8 rounded-custom border border-input bg-background"
           />
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -47,14 +47,14 @@ export default function Customers() {
       {filteredCustomers.length === 0 ? (
         <div className="bg-card p-8 rounded-custom shadow text-center">
           <Building className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
-          <p className="mt-4 text-muted-foreground">No customers found matching your search.</p>
+          <p className="mt-4 text-muted-foreground">Keine Kunden gefunden, die Ihrer Suche entsprechen.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCustomers.map((customer) => {
             const customerLocations = getCustomerLocations(customer.id)
             const customerCases = getCasesByCustomer(customer.id)
-            const openCases = customerCases.filter((c) => c.status === "Open").length
+            const openCases = customerCases.filter((c) => c.status === "Offen").length
             const industryColor = getIndustryColor(customer.industry)
 
             return (
@@ -102,14 +102,14 @@ export default function Customers() {
                         <MapPin className="h-4 w-4 mr-1 text-muted-foreground" />
                         <span className="text-lg font-semibold">{customerLocations.length}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">Locations</p>
+                      <p className="text-xs text-muted-foreground">Standorte</p>
                     </div>
                     <div className="bg-card p-2 rounded-lg">
                       <div className="flex items-center justify-center">
                         <Briefcase className="h-4 w-4 mr-1 text-muted-foreground" />
                         <span className="text-lg font-semibold">{customerCases.length}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">Cases</p>
+                      <p className="text-xs text-muted-foreground">Fälle</p>
                     </div>
                     <div className="bg-card p-2 rounded-lg">
                       <div className="flex items-center justify-center">
@@ -118,7 +118,7 @@ export default function Customers() {
                         ></div>
                         <span className="text-lg font-semibold">{openCases}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">Open</p>
+                      <p className="text-xs text-muted-foreground">Offen</p>
                     </div>
                   </div>
                 </div>

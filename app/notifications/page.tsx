@@ -5,13 +5,13 @@ import { Bell, AlertTriangle, CheckCircle, Calendar } from "lucide-react"
 import { cases, getCustomerById } from "@/lib/data"
 import Link from "next/link"
 
-// Generate mock notification data
+// Mock-Benachrichtigungsdaten generieren
 function generateNotifications() {
   return [
     {
       id: 1,
       type: "response",
-      message: "Customer Acme Corp has submitted responses for Case #1",
+      message: "Kunde Acme GmbH hat Antworten für Fall #1 eingereicht",
       caseId: 1,
       customerId: 1,
       date: "2023-06-01T14:30:00Z",
@@ -20,7 +20,7 @@ function generateNotifications() {
     {
       id: 2,
       type: "missed",
-      message: "Customer TechStart Inc has missed the deadline for Case #3",
+      message: "Kunde TechStart AG hat die Frist für Fall #3 verpasst",
       caseId: 3,
       customerId: 2,
       date: "2023-05-30T09:15:00Z",
@@ -29,7 +29,7 @@ function generateNotifications() {
     {
       id: 3,
       type: "response",
-      message: "Customer Global Services has submitted responses for Case #5",
+      message: "Kunde Global Dienstleistungen hat Antworten für Fall #5 eingereicht",
       caseId: 5,
       customerId: 3,
       date: "2023-05-28T16:45:00Z",
@@ -38,7 +38,7 @@ function generateNotifications() {
     {
       id: 4,
       type: "missed",
-      message: "Customer Acme Corp has missed the deadline for Case #6",
+      message: "Kunde Acme GmbH hat die Frist für Fall #6 verpasst",
       caseId: 6,
       customerId: 1,
       date: "2023-05-25T11:20:00Z",
@@ -47,7 +47,7 @@ function generateNotifications() {
     {
       id: 5,
       type: "response",
-      message: "Customer TechStart Inc has submitted responses for Case #7",
+      message: "Kunde TechStart AG hat Antworten für Fall #7 eingereicht",
       caseId: 7,
       customerId: 2,
       date: "2023-05-22T13:10:00Z",
@@ -60,27 +60,27 @@ export default function Notifications() {
   const [notifications, setNotifications] = useState(generateNotifications())
   const [filter, setFilter] = useState<"all" | "response" | "missed">("all")
 
-  // Filter notifications based on selected filter
+  // Benachrichtigungen basierend auf ausgewähltem Filter filtern
   const filteredNotifications = notifications.filter((notification) => filter === "all" || notification.type === filter)
 
-  // Mark notification as read
+  // Benachrichtigung als gelesen markieren
   const markAsRead = (id: number) => {
     setNotifications((prev) =>
       prev.map((notification) => (notification.id === id ? { ...notification, isRead: true } : notification)),
     )
   }
 
-  // Count unread notifications
+  // Ungelesene Benachrichtigungen zählen
   const unreadCount = notifications.filter((n) => !n.isRead).length
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-3xl font-bold">Notifications</h1>
+          <h1 className="text-3xl font-bold">Benachrichtigungen</h1>
           {unreadCount > 0 && (
             <span className="ml-3 px-2 py-1 text-xs bg-primary text-primary-foreground rounded-full">
-              {unreadCount} unread
+              {unreadCount} ungelesen
             </span>
           )}
         </div>
@@ -93,7 +93,7 @@ export default function Notifications() {
                 filter === "all" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               }`}
             >
-              All
+              Alle
             </button>
             <button
               onClick={() => setFilter("response")}
@@ -101,7 +101,7 @@ export default function Notifications() {
                 filter === "response" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               }`}
             >
-              Responses
+              Antworten
             </button>
             <button
               onClick={() => setFilter("missed")}
@@ -109,7 +109,7 @@ export default function Notifications() {
                 filter === "missed" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               }`}
             >
-              Missed Deadlines
+              Verpasste Fristen
             </button>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function Notifications() {
       {filteredNotifications.length === 0 ? (
         <div className="bg-card p-8 rounded-custom shadow text-center">
           <Bell className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
-          <p className="mt-4 text-muted-foreground">No notifications found.</p>
+          <p className="mt-4 text-muted-foreground">Keine Benachrichtigungen gefunden.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -162,7 +162,7 @@ export default function Notifications() {
                         href={`/cases/${notification.caseId}/full-view`}
                         className="px-3 py-1 text-xs bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors inline-flex items-center"
                       >
-                        View Case
+                        Fall anzeigen
                       </Link>
                     </div>
                   )}

@@ -22,51 +22,51 @@ export default function CreateCase() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  // Get initial values from query params if available
+  // Anfangswerte aus Abfrageparametern abrufen, falls verfügbar
   const initialCustomerId = searchParams.get("customerId") ? Number(searchParams.get("customerId")) : 0
   const initialLocationId = searchParams.get("locationId") || ""
 
-  // Form state
+  // Formularstatus
   const [currentStep, setCurrentStep] = useState(1)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [customerId, setCustomerId] = useState(initialCustomerId)
   const [locationId, setLocationId] = useState(initialLocationId)
-  const [caseType, setCaseType] = useState("Risk Assessment")
-  const [priority, setPriority] = useState("Medium")
+  const [caseType, setCaseType] = useState("Risikobewertung")
+  const [priority, setPriority] = useState("Mittel")
   const [dueDate, setDueDate] = useState("")
   const [customerLocations, setCustomerLocations] = useState<any[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
 
-  // Risk assessment state
+  // Risikobewertungsstatus
   const [risks, setRisks] = useState<any[]>([
     {
       id: "risk-1",
       title: "",
       description: "",
-      severity: "Medium",
+      severity: "Mittel",
       impactAreas: "",
       potentialConsequences: "",
       recommendations: [
         {
           id: "rec-1-1",
           description: "",
-          priority: "Medium",
-          estimatedCost: "Medium",
-          timeframe: "1-3 months",
+          priority: "Mittel",
+          estimatedCost: "Mittel",
+          timeframe: "1-3 Monate",
         },
       ],
     },
   ])
 
-  // Update available locations when customer changes
+  // Verfügbare Standorte aktualisieren, wenn sich der Kunde ändert
   useEffect(() => {
     if (customerId) {
       const locations = getCustomerLocations(customerId)
       setCustomerLocations(locations)
 
-      // If current location doesn't belong to the selected customer, reset it
+      // Wenn der aktuelle Standort nicht zum ausgewählten Kunden gehört, zurücksetzen
       if (locationId && !locations.some((loc) => loc.id === locationId)) {
         setLocationId("")
       }
@@ -79,40 +79,40 @@ export default function CreateCase() {
   const validateStep1 = () => {
     const errors: { [key: string]: string } = {}
 
-    if (!customerId) errors.customerId = "Please select a customer"
-    if (!locationId) errors.locationId = "Please select a location"
-    if (!title.trim()) errors.title = "Please enter a case title"
-    if (!description.trim()) errors.description = "Please enter a case description"
-    if (!dueDate) errors.dueDate = "Please select a due date"
+    if (!customerId) errors.customerId = "Bitte wählen Sie einen Kunden aus"
+    if (!locationId) errors.locationId = "Bitte wählen Sie einen Standort aus"
+    if (!title.trim()) errors.title = "Bitte geben Sie einen Falltitel ein"
+    if (!description.trim()) errors.description = "Bitte geben Sie eine Fallbeschreibung ein"
+    if (!dueDate) errors.dueDate = "Bitte wählen Sie ein Fälligkeitsdatum aus"
 
     setFormErrors(errors)
     return Object.keys(errors).length === 0
   }
 
   const validateStep2 = () => {
-    // Check if at least one risk is properly filled out
+    // Prüfen, ob mindestens ein Risiko ordnungsgemäß ausgefüllt ist
     if (risks.length === 0) {
-      alert("Please add at least one risk assessment")
+      alert("Bitte fügen Sie mindestens eine Risikobewertung hinzu")
       return false
     }
 
-    // Check if all risks have titles and descriptions
+    // Prüfen, ob alle Risiken Titel und Beschreibungen haben
     for (const risk of risks) {
       if (!risk.title.trim() || !risk.description.trim()) {
-        alert("Please fill out all risk titles and descriptions")
+        alert("Bitte füllen Sie alle Risikotitel und -beschreibungen aus")
         return false
       }
 
-      // Check if each risk has at least one recommendation
+      // Prüfen, ob jedes Risiko mindestens eine Empfehlung hat
       if (risk.recommendations.length === 0) {
-        alert(`Please add at least one recommendation for risk "${risk.title}"`)
+        alert(`Bitte fügen Sie mindestens eine Empfehlung für das Risiko "${risk.title}" hinzu`)
         return false
       }
 
-      // Check if all recommendations have descriptions
+      // Prüfen, ob alle Empfehlungen Beschreibungen haben
       for (const rec of risk.recommendations) {
         if (!rec.description.trim()) {
-          alert(`Please fill out all recommendation descriptions for risk "${risk.title}"`)
+          alert(`Bitte füllen Sie alle Empfehlungsbeschreibungen für das Risiko "${risk.title}" aus`)
           return false
         }
       }
@@ -149,7 +149,7 @@ export default function CreateCase() {
 
     setIsSubmitting(true)
 
-    // Format the risks data for submission
+    // Risikodaten für die Übermittlung formatieren
     const formattedRisks = risks.map((risk) => ({
       ...risk,
       impactAreas: risk.impactAreas
@@ -159,8 +159,8 @@ export default function CreateCase() {
       recommendations: risk.recommendations,
     }))
 
-    // In a real app, this would be an API call to create the case
-    console.log("Creating case:", {
+    // In einer echten App würde dies ein API-Aufruf sein, um den Fall zu erstellen
+    console.log("Fall erstellen:", {
       title,
       description,
       customerId,
@@ -168,14 +168,14 @@ export default function CreateCase() {
       caseType,
       priority,
       dueDate,
-      status: "Open",
+      status: "Offen",
       createdAt: new Date().toISOString(),
       riskAssessments: formattedRisks,
     })
 
-    // Simulate API delay
+    // API-Verzögerung simulieren
     setTimeout(() => {
-      // Navigate to cases list
+      // Zur Fallliste navigieren
       router.push("/cases")
     }, 1000)
   }
@@ -188,16 +188,16 @@ export default function CreateCase() {
         id: newRiskId,
         title: "",
         description: "",
-        severity: "Medium",
+        severity: "Mittel",
         impactAreas: "",
         potentialConsequences: "",
         recommendations: [
           {
             id: `rec-${risks.length + 1}-1-${Date.now()}`,
             description: "",
-            priority: "Medium",
-            estimatedCost: "Medium",
-            timeframe: "1-3 months",
+            priority: "Mittel",
+            estimatedCost: "Mittel",
+            timeframe: "1-3 Monate",
           },
         ],
       },
@@ -206,7 +206,7 @@ export default function CreateCase() {
 
   const removeRisk = (riskId: string) => {
     if (risks.length <= 1) {
-      alert("You must have at least one risk assessment")
+      alert("Sie müssen mindestens eine Risikobewertung haben")
       return
     }
     setRisks(risks.filter((risk) => risk.id !== riskId))
@@ -228,9 +228,9 @@ export default function CreateCase() {
               {
                 id: newRecId,
                 description: "",
-                priority: "Medium",
-                estimatedCost: "Medium",
-                timeframe: "1-3 months",
+                priority: "Mittel",
+                estimatedCost: "Mittel",
+                timeframe: "1-3 Monate",
               },
             ],
           }
@@ -245,7 +245,7 @@ export default function CreateCase() {
       risks.map((risk) => {
         if (risk.id === riskId) {
           if (risk.recommendations.length <= 1) {
-            alert("Each risk must have at least one recommendation")
+            alert("Jedes Risiko muss mindestens eine Empfehlung haben")
             return risk
           }
           return {
@@ -279,19 +279,19 @@ export default function CreateCase() {
       <div className="mb-6 flex items-center">
         <Link href="/cases" className="inline-flex items-center text-sm text-primary hover:underline">
           <ArrowLeft className="h-4 w-4 mr-1" />
-          Back to Cases
+          Zurück zu Fällen
         </Link>
       </div>
 
       <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 shadow-md mb-6">
         <h1 className="text-2xl font-bold flex items-center">
           <Briefcase className="mr-2 h-6 w-6 text-primary" />
-          Create New Case
+          Neuen Fall erstellen
         </h1>
-        <p className="text-muted-foreground mt-1">Create a new case for a customer location</p>
+        <p className="text-muted-foreground mt-1">Erstellen Sie einen neuen Fall für einen Kundenstandort</p>
       </div>
 
-      {/* Step indicator */}
+      {/* Schrittanzeige */}
       <div className="mb-6">
         <div className="flex items-center">
           <div
@@ -307,8 +307,8 @@ export default function CreateCase() {
           </div>
         </div>
         <div className="flex justify-between mt-2 text-sm">
-          <div className={currentStep === 1 ? "font-medium" : "text-muted-foreground"}>Case Details</div>
-          <div className={currentStep === 2 ? "font-medium" : "text-muted-foreground"}>Risk Assessment</div>
+          <div className={currentStep === 1 ? "font-medium" : "text-muted-foreground"}>Falldetails</div>
+          <div className={currentStep === 2 ? "font-medium" : "text-muted-foreground"}>Risikobewertung</div>
         </div>
       </div>
 
@@ -319,13 +319,13 @@ export default function CreateCase() {
               <div className="bg-muted/30 px-4 py-3 border-b border-border">
                 <h2 className="font-medium flex items-center">
                   <Building className="h-5 w-5 mr-2 text-muted-foreground" />
-                  Customer & Location
+                  Kunde & Standort
                 </h2>
               </div>
               <div className="p-6 space-y-4">
                 <div>
                   <label htmlFor="customerId" className="block text-sm font-medium mb-2">
-                    Customer <span className="text-red-500">*</span>
+                    Kunde <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="customerId"
@@ -334,7 +334,7 @@ export default function CreateCase() {
                     className={`w-full p-2 rounded-md border ${formErrors.customerId ? "border-red-500" : "border-input"} bg-background`}
                     required
                   >
-                    <option value="">Select a customer</option>
+                    <option value="">Kunde auswählen</option>
                     {customers.map((customer) => (
                       <option key={customer.id} value={customer.id}>
                         {customer.name} - {customer.industry}
@@ -346,7 +346,7 @@ export default function CreateCase() {
 
                 <div>
                   <label htmlFor="locationId" className="block text-sm font-medium mb-2">
-                    Location <span className="text-red-500">*</span>
+                    Standort <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="locationId"
@@ -356,7 +356,7 @@ export default function CreateCase() {
                     required
                     disabled={!customerId}
                   >
-                    <option value="">Select a location</option>
+                    <option value="">Standort auswählen</option>
                     {customerLocations.map((location) => (
                       <option key={location.id} value={location.id}>
                         {location.name} - {location.address}
@@ -366,17 +366,17 @@ export default function CreateCase() {
                   {formErrors.locationId ? (
                     <p className="text-red-500 text-sm mt-1">{formErrors.locationId}</p>
                   ) : !customerId ? (
-                    <p className="text-sm text-muted-foreground mt-1">Please select a customer first</p>
+                    <p className="text-sm text-muted-foreground mt-1">Bitte wählen Sie zuerst einen Kunden aus</p>
                   ) : null}
                 </div>
 
                 {selectedCustomer && (
                   <div className="bg-muted/30 p-3 rounded-md mt-2">
                     <p className="text-sm">
-                      <span className="font-medium">Selected Customer:</span> {selectedCustomer.name}
+                      <span className="font-medium">Ausgewählter Kunde:</span> {selectedCustomer.name}
                     </p>
                     <p className="text-sm">
-                      <span className="font-medium">Contact:</span> {selectedCustomer.email} | {selectedCustomer.phone}
+                      <span className="font-medium">Kontakt:</span> {selectedCustomer.email} | {selectedCustomer.phone}
                     </p>
                   </div>
                 )}
@@ -387,13 +387,13 @@ export default function CreateCase() {
               <div className="bg-muted/30 px-4 py-3 border-b border-border">
                 <h2 className="font-medium flex items-center">
                   <Briefcase className="h-5 w-5 mr-2 text-muted-foreground" />
-                  Case Details
+                  Falldetails
                 </h2>
               </div>
               <div className="p-6 space-y-4">
                 <div>
                   <label htmlFor="title" className="block text-sm font-medium mb-2">
-                    Case Title <span className="text-red-500">*</span>
+                    Falltitel <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -401,7 +401,7 @@ export default function CreateCase() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className={`w-full p-2 rounded-md border ${formErrors.title ? "border-red-500" : "border-input"} bg-background`}
-                    placeholder="e.g. Annual Safety Inspection"
+                    placeholder="z.B. Jährliche Sicherheitsinspektion"
                     required
                   />
                   {formErrors.title && <p className="text-red-500 text-sm mt-1">{formErrors.title}</p>}
@@ -410,7 +410,7 @@ export default function CreateCase() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label htmlFor="caseType" className="block text-sm font-medium mb-2">
-                      Case Type
+                      Falltyp
                     </label>
                     <select
                       id="caseType"
@@ -418,16 +418,16 @@ export default function CreateCase() {
                       onChange={(e) => setCaseType(e.target.value)}
                       className="w-full p-2 rounded-md border border-input bg-background"
                     >
-                      <option value="Risk Assessment">Risk Assessment</option>
-                      <option value="Safety Inspection">Safety Inspection</option>
-                      <option value="Compliance Review">Compliance Review</option>
-                      <option value="Equipment Maintenance">Equipment Maintenance</option>
+                      <option value="Risikobewertung">Risikobewertung</option>
+                      <option value="Sicherheitsinspektion">Sicherheitsinspektion</option>
+                      <option value="Compliance-Überprüfung">Compliance-Überprüfung</option>
+                      <option value="Geräte-Wartung">Geräte-Wartung</option>
                     </select>
                   </div>
 
                   <div>
                     <label htmlFor="priority" className="block text-sm font-medium mb-2">
-                      Priority
+                      Priorität
                     </label>
                     <select
                       id="priority"
@@ -435,15 +435,15 @@ export default function CreateCase() {
                       onChange={(e) => setPriority(e.target.value)}
                       className="w-full p-2 rounded-md border border-input bg-background"
                     >
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
-                      <option value="High">High</option>
+                      <option value="Niedrig">Niedrig</option>
+                      <option value="Mittel">Mittel</option>
+                      <option value="Hoch">Hoch</option>
                     </select>
                   </div>
 
                   <div>
                     <label htmlFor="dueDate" className="block text-sm font-medium mb-2">
-                      Due Date <span className="text-red-500">*</span>
+                      Fälligkeitsdatum <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="date"
@@ -459,7 +459,7 @@ export default function CreateCase() {
 
                 <div>
                   <label htmlFor="description" className="block text-sm font-medium mb-2">
-                    Case Description <span className="text-red-500">*</span>
+                    Fallbeschreibung <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="description"
@@ -467,7 +467,7 @@ export default function CreateCase() {
                     onChange={(e) => setDescription(e.target.value)}
                     className={`w-full p-2 rounded-md border ${formErrors.description ? "border-red-500" : "border-input"} bg-background`}
                     rows={4}
-                    placeholder="Provide a detailed description of the case..."
+                    placeholder="Geben Sie eine detaillierte Beschreibung des Falls an..."
                     required
                   ></textarea>
                   {formErrors.description && <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>}
@@ -483,7 +483,7 @@ export default function CreateCase() {
               <div className="bg-muted/30 px-4 py-3 border-b border-border flex justify-between items-center">
                 <h2 className="font-medium flex items-center">
                   <AlertTriangle className="h-5 w-5 mr-2 text-muted-foreground" />
-                  Risk Assessment
+                  Risikobewertung
                 </h2>
                 <button
                   type="button"
@@ -491,18 +491,18 @@ export default function CreateCase() {
                   className="px-2 py-1 bg-primary text-primary-foreground rounded-md text-sm flex items-center"
                 >
                   <Plus className="h-3 w-3 mr-1" />
-                  Add Risk
+                  Risiko hinzufügen
                 </button>
               </div>
               <div className="p-6">
                 <div className="mb-4 bg-muted/30 p-4 rounded-md">
                   <h3 className="text-sm font-medium flex items-center mb-2">
                     <FileText className="h-4 w-4 mr-1" />
-                    Insurer Report Information
+                    Informationen zum Versicherungsbericht
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Based on the insurer's report, add the identified risks and recommendations. Each risk should have
-                    at least one recommendation.
+                    Fügen Sie basierend auf dem Bericht des Versicherers die identifizierten Risiken und Empfehlungen
+                    hinzu. Jedes Risiko sollte mindestens eine Empfehlung haben.
                   </p>
                 </div>
 
@@ -510,12 +510,12 @@ export default function CreateCase() {
                   {risks.map((risk, index) => (
                     <div key={risk.id} className="bg-card rounded-lg border border-border overflow-hidden">
                       <div className="bg-muted/30 px-4 py-3 border-b border-border flex justify-between items-center">
-                        <h3 className="font-medium">Risk #{index + 1}</h3>
+                        <h3 className="font-medium">Risiko #{index + 1}</h3>
                         <button
                           type="button"
                           onClick={() => removeRisk(risk.id)}
                           className="p-1 text-muted-foreground hover:text-destructive rounded-md"
-                          title="Remove risk"
+                          title="Risiko entfernen"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -523,7 +523,7 @@ export default function CreateCase() {
                       <div className="p-4 space-y-4">
                         <div>
                           <label htmlFor={`risk-title-${risk.id}`} className="block text-sm font-medium mb-2">
-                            Risk Title <span className="text-red-500">*</span>
+                            Risikotitel <span className="text-red-500">*</span>
                           </label>
                           <input
                             type="text"
@@ -531,14 +531,14 @@ export default function CreateCase() {
                             value={risk.title}
                             onChange={(e) => updateRisk(risk.id, "title", e.target.value)}
                             className="w-full p-2 rounded-md border border-input bg-background"
-                            placeholder="e.g. Safety Concerns"
+                            placeholder="z.B. Sicherheitsbedenken"
                             required
                           />
                         </div>
 
                         <div>
                           <label htmlFor={`risk-desc-${risk.id}`} className="block text-sm font-medium mb-2">
-                            Risk Description <span className="text-red-500">*</span>
+                            Risikobeschreibung <span className="text-red-500">*</span>
                           </label>
                           <textarea
                             id={`risk-desc-${risk.id}`}
@@ -546,7 +546,7 @@ export default function CreateCase() {
                             onChange={(e) => updateRisk(risk.id, "description", e.target.value)}
                             className="w-full p-2 rounded-md border border-input bg-background"
                             rows={3}
-                            placeholder="Describe the risk in detail..."
+                            placeholder="Beschreiben Sie das Risiko im Detail..."
                             required
                           ></textarea>
                         </div>
@@ -554,7 +554,7 @@ export default function CreateCase() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           <div>
                             <label htmlFor={`risk-severity-${risk.id}`} className="block text-sm font-medium mb-2">
-                              Severity
+                              Schweregrad
                             </label>
                             <select
                               id={`risk-severity-${risk.id}`}
@@ -562,15 +562,15 @@ export default function CreateCase() {
                               onChange={(e) => updateRisk(risk.id, "severity", e.target.value)}
                               className="w-full p-2 rounded-md border border-input bg-background"
                             >
-                              <option value="Low">Low</option>
-                              <option value="Medium">Medium</option>
-                              <option value="High">High</option>
+                              <option value="Niedrig">Niedrig</option>
+                              <option value="Mittel">Mittel</option>
+                              <option value="Hoch">Hoch</option>
                             </select>
                           </div>
 
                           <div className="md:col-span-2">
                             <label htmlFor={`risk-impact-${risk.id}`} className="block text-sm font-medium mb-2">
-                              Impact Areas (comma separated)
+                              Auswirkungsbereiche (durch Komma getrennt)
                             </label>
                             <input
                               type="text"
@@ -578,14 +578,14 @@ export default function CreateCase() {
                               value={risk.impactAreas}
                               onChange={(e) => updateRisk(risk.id, "impactAreas", e.target.value)}
                               className="w-full p-2 rounded-md border border-input bg-background"
-                              placeholder="e.g. Employee Safety, Regulatory Compliance, Liability"
+                              placeholder="z.B. Mitarbeitersicherheit, Regulatorische Compliance, Haftung"
                             />
                           </div>
                         </div>
 
                         <div>
                           <label htmlFor={`risk-consequences-${risk.id}`} className="block text-sm font-medium mb-2">
-                            Potential Consequences
+                            Mögliche Konsequenzen
                           </label>
                           <input
                             type="text"
@@ -593,21 +593,21 @@ export default function CreateCase() {
                             value={risk.potentialConsequences}
                             onChange={(e) => updateRisk(risk.id, "potentialConsequences", e.target.value)}
                             className="w-full p-2 rounded-md border border-input bg-background"
-                            placeholder="e.g. Injuries, regulatory fines, potential lawsuits"
+                            placeholder="z.B. Verletzungen, behördliche Bußgelder, potenzielle Klagen"
                           />
                         </div>
 
-                        {/* Recommendations */}
+                        {/* Empfehlungen */}
                         <div className="mt-4">
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-sm font-medium">Recommendations</h4>
+                            <h4 className="text-sm font-medium">Empfehlungen</h4>
                             <button
                               type="button"
                               onClick={() => addRecommendation(risk.id)}
                               className="px-2 py-1 bg-secondary text-secondary-foreground rounded-md text-xs flex items-center"
                             >
                               <Plus className="h-3 w-3 mr-1" />
-                              Add Recommendation
+                              Empfehlung hinzufügen
                             </button>
                           </div>
 
@@ -615,12 +615,12 @@ export default function CreateCase() {
                             {risk.recommendations.map((rec, recIndex) => (
                               <div key={rec.id} className="bg-background p-3 rounded-md border border-border">
                                 <div className="flex justify-between items-start mb-2">
-                                  <h5 className="text-sm font-medium">Recommendation #{recIndex + 1}</h5>
+                                  <h5 className="text-sm font-medium">Empfehlung #{recIndex + 1}</h5>
                                   <button
                                     type="button"
                                     onClick={() => removeRecommendation(risk.id, rec.id)}
                                     className="p-1 text-muted-foreground hover:text-destructive rounded-md"
-                                    title="Remove recommendation"
+                                    title="Empfehlung entfernen"
                                   >
                                     <Trash2 className="h-3 w-3" />
                                   </button>
@@ -629,7 +629,7 @@ export default function CreateCase() {
                                 <div className="space-y-3">
                                   <div>
                                     <label htmlFor={`rec-desc-${rec.id}`} className="block text-xs font-medium mb-1">
-                                      Description <span className="text-red-500">*</span>
+                                      Beschreibung <span className="text-red-500">*</span>
                                     </label>
                                     <textarea
                                       id={`rec-desc-${rec.id}`}
@@ -639,7 +639,7 @@ export default function CreateCase() {
                                       }
                                       className="w-full p-2 rounded-md border border-input bg-background text-sm"
                                       rows={2}
-                                      placeholder="Describe the recommendation..."
+                                      placeholder="Beschreiben Sie die Empfehlung..."
                                       required
                                     ></textarea>
                                   </div>
@@ -650,7 +650,7 @@ export default function CreateCase() {
                                         htmlFor={`rec-priority-${rec.id}`}
                                         className="block text-xs font-medium mb-1"
                                       >
-                                        Priority
+                                        Priorität
                                       </label>
                                       <select
                                         id={`rec-priority-${rec.id}`}
@@ -660,14 +660,14 @@ export default function CreateCase() {
                                         }
                                         className="w-full p-1 rounded-md border border-input bg-background text-sm"
                                       >
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
+                                        <option value="Niedrig">Niedrig</option>
+                                        <option value="Mittel">Mittel</option>
+                                        <option value="Hoch">Hoch</option>
                                       </select>
                                     </div>
                                     <div>
                                       <label htmlFor={`rec-cost-${rec.id}`} className="block text-xs font-medium mb-1">
-                                        Est. Cost
+                                        Geschätzte Kosten
                                       </label>
                                       <select
                                         id={`rec-cost-${rec.id}`}
@@ -677,9 +677,9 @@ export default function CreateCase() {
                                         }
                                         className="w-full p-1 rounded-md border border-input bg-background text-sm"
                                       >
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
+                                        <option value="Niedrig">Niedrig</option>
+                                        <option value="Mittel">Mittel</option>
+                                        <option value="Hoch">Hoch</option>
                                       </select>
                                     </div>
                                     <div>
@@ -687,7 +687,7 @@ export default function CreateCase() {
                                         htmlFor={`rec-timeframe-${rec.id}`}
                                         className="block text-xs font-medium mb-1"
                                       >
-                                        Timeframe
+                                        Zeitrahmen
                                       </label>
                                       <input
                                         type="text"
@@ -697,7 +697,7 @@ export default function CreateCase() {
                                           updateRecommendation(risk.id, rec.id, "timeframe", e.target.value)
                                         }
                                         className="w-full p-1 rounded-md border border-input bg-background text-sm"
-                                        placeholder="e.g. 1-3 months"
+                                        placeholder="z.B. 1-3 Monate"
                                       />
                                     </div>
                                   </div>
@@ -721,7 +721,7 @@ export default function CreateCase() {
               href="/cases"
               className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
             >
-              Cancel
+              Abbrechen
             </Link>
           ) : (
             <button
@@ -730,7 +730,7 @@ export default function CreateCase() {
               className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors flex items-center"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Back
+              Zurück
             </button>
           )}
 
@@ -740,7 +740,7 @@ export default function CreateCase() {
               onClick={handleNextStep}
               className="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors flex items-center"
             >
-              Next
+              Weiter
               <ChevronRight className="h-4 w-4 ml-1" />
             </button>
           ) : (
@@ -752,12 +752,12 @@ export default function CreateCase() {
               {isSubmitting ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
-                  Creating...
+                  Erstellen...
                 </>
               ) : (
                 <>
                   <CheckCircle className="h-4 w-4 mr-1" />
-                  Create Case
+                  Fall erstellen
                 </>
               )}
             </button>

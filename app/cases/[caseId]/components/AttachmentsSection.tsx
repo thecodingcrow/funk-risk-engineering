@@ -39,12 +39,12 @@ export default function AttachmentsSection({ attachments, isEditing, onUpdate }:
     <div className="bg-card p-6 rounded-lg shadow">
       <h2 className="text-xl font-semibold flex items-center">
         <Paperclip className="h-5 w-5 mr-2" />
-        Attachments
+        Anhänge
       </h2>
 
       <div className="mt-4">
         {attachments.length === 0 ? (
-          <p className="text-muted-foreground">No attachments yet.</p>
+          <p className="text-muted-foreground">Noch keine Anhänge vorhanden.</p>
         ) : (
           <ul className="space-y-2">
             {attachments.map((attachment) => (
@@ -54,7 +54,7 @@ export default function AttachmentsSection({ attachments, isEditing, onUpdate }:
                   <div>
                     <p className="font-medium">{attachment.fileName}</p>
                     <p className="text-xs text-muted-foreground">
-                      {attachment.fileSize} • Uploaded {new Date(attachment.uploadedAt).toLocaleDateString()}
+                      {attachment.fileSize} • Hochgeladen am {new Date(attachment.uploadedAt).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -79,7 +79,7 @@ export default function AttachmentsSection({ attachments, isEditing, onUpdate }:
 
       {isEditing && (
         <div className="mt-4">
-          <label className="block text-sm font-medium mb-2">Upload New Attachment</label>
+          <label className="block text-sm font-medium mb-2">Neuen Anhang hochladen</label>
           <input
             type="file"
             onChange={handleAddAttachment}

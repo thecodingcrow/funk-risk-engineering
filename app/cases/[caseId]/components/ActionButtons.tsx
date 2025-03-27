@@ -36,7 +36,7 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
 
   return (
     <div className="bg-card p-6 rounded-lg shadow">
-      <h2 className="text-xl font-semibold">Actions</h2>
+      <h2 className="text-xl font-semibold">Aktionen</h2>
 
       <div className="mt-4 space-y-3">
         <Link
@@ -44,7 +44,7 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
           className="flex items-center justify-center w-full p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
         >
           <Edit className="h-4 w-4 mr-2" />
-          Edit Report
+          Bericht bearbeiten
         </Link>
 
         <Link
@@ -52,13 +52,13 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
           className="flex items-center justify-center w-full p-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
         >
           <FileText className="h-4 w-4 mr-2" />
-          View Full Report
+          Vollständigen Bericht anzeigen
         </Link>
 
         <div className="border-t border-border pt-3">
           <h3 className="text-sm font-medium mb-2 flex items-center">
             <Users className="h-4 w-4 mr-1" />
-            Customer Actions
+            Kundenaktionen
           </h3>
 
           <button
@@ -68,19 +68,19 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
             {linkCopied ? (
               <>
                 <CheckCircle className="h-4 w-4 mr-2" />
-                Link Copied!
+                Link kopiert!
               </>
             ) : (
               <>
                 <Send className="h-4 w-4 mr-2" />
-                {linkGenerated ? "Copy Customer Link" : "Generate Customer Link"}
+                {linkGenerated ? "Kundenlink kopieren" : "Kundenlink generieren"}
               </>
             )}
           </button>
 
           {linkGenerated && (
             <p className="text-xs text-muted-foreground mt-1 text-center">
-              Link sent to customer. They can now respond to recommendations.
+              Link an Kunden gesendet. Sie können jetzt auf Empfehlungen antworten.
             </p>
           )}
         </div>
@@ -91,7 +91,7 @@ export default function ActionButtons({ caseData, onStatusChange }: ActionButton
             className="flex items-center justify-center w-full p-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors mt-4"
           >
             <CheckCircle className="h-4 w-4 mr-2" />
-            Close Case
+            Fall abschließen
           </button>
         )}
       </div>

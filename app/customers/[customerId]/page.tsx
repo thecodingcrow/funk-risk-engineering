@@ -28,11 +28,25 @@ export default function CustomerDetail() {
   }, [customerId])
 
   if (isLoading) {
-    return <div className="p-8">Loading customer data...</div>
+    return <div className="p-8">Kundendaten werden geladen...</div>
   }
 
   if (!customer) {
-    return <div className="p-8">Customer not found</div>
+    return <div className="p-8">Kunde nicht gefunden</div>
+  }
+
+  // Function to translate status
+  const translateStatus = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "Offen"
+      case "In Progress":
+        return "In Bearbeitung"
+      case "Closed":
+        return "Abgeschlossen"
+      default:
+        return status
+    }
   }
 
   return (
@@ -69,7 +83,7 @@ export default function CustomerDetail() {
           <div className="bg-card p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4 flex items-center">
               <MapPin className="mr-2 h-5 w-5" />
-              Locations ({locations.length})
+              Standorte ({locations.length})
             </h2>
 
             <div className="space-y-3">
@@ -85,7 +99,7 @@ export default function CustomerDetail() {
                       <p className="text-sm text-muted-foreground">{location.address}</p>
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {cases.filter((c) => c.locationId === location.id).length} cases
+                      {cases.filter((c) => c.locationId === location.id).length} Fälle
                     </div>
                   </div>
                 </Link>
@@ -98,7 +112,7 @@ export default function CustomerDetail() {
           <div className="bg-card p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4 flex items-center">
               <Briefcase className="mr-2 h-5 w-5" />
-              Recent Cases
+              Aktuelle Fälle
             </h2>
 
             <div className="space-y-3">
@@ -124,7 +138,7 @@ export default function CustomerDetail() {
                             : "bg-green-500 text-white"
                       }`}
                     >
-                      {caseItem.status}
+                      {translateStatus(caseItem.status)}
                     </span>
                   </div>
                 </Link>
@@ -135,11 +149,13 @@ export default function CustomerDetail() {
                   href={`/cases?customerId=${customerId}`}
                   className="block text-center text-sm text-primary hover:underline"
                 >
-                  View all {cases.length} cases
+                  Alle {cases.length} Fälle anzeigen
                 </Link>
               )}
 
-              {cases.length === 0 && <p className="text-muted-foreground text-sm">No cases found for this customer.</p>}
+              {cases.length === 0 && (
+                <p className="text-muted-foreground text-sm">Keine Fälle für diesen Kunden gefunden.</p>
+              )}
             </div>
           </div>
         </div>

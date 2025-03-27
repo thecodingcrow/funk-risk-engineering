@@ -53,37 +53,38 @@ export default function CaseFullView() {
           id: "emp-456",
           name: "John Doe",
           email: "john.doe@company.com",
+          position: "Risikobewertungsspezialist",
         },
         metadata: {
-          caseType: "Risk Assessment",
-          priority: "Medium",
-          industry: customerData?.industry || "Unknown",
+          caseType: "Risikobewertung",
+          priority: "Mittel",
+          industry: customerData?.industry || "Unbekannt",
         },
         report: {
-          title: `${caseItem.title} Report`,
-          overview: "This report assesses various risks and provides recommendations for mitigation.",
+          title: `${caseItem.title} Bericht`,
+          overview: "Dieser Bericht bewertet verschiedene Risiken und bietet Empfehlungen zur Risikominderung.",
           riskAssessments: [
             {
               id: "risk-1",
-              title: "Safety Concerns",
-              description: "Several safety issues were identified during the inspection.",
-              severity: "High",
+              title: "Sicherheitsbedenken",
+              description: "Bei der Inspektion wurden mehrere Sicherheitsprobleme festgestellt.",
+              severity: "Hoch",
             },
             {
               id: "risk-2",
-              title: "Maintenance Issues",
-              description: "Regular maintenance procedures are not being followed.",
-              severity: "Medium",
+              title: "Wartungsprobleme",
+              description: "Regelmäßige Wartungsverfahren werden nicht eingehalten.",
+              severity: "Mittel",
             },
           ],
           suggestions: [
             {
               id: "sug-1",
               riskId: "risk-1",
-              description: "Implement a comprehensive safety training program for all employees.",
-              priority: "High",
-              estimatedCost: "Medium",
-              timeframe: "1-3 months",
+              description: "Implementieren Sie ein umfassendes Sicherheitsschulungsprogramm für alle Mitarbeiter.",
+              priority: "Hoch",
+              estimatedCost: "Mittel",
+              timeframe: "1-3 Monate",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -93,10 +94,10 @@ export default function CaseFullView() {
             {
               id: "sug-2",
               riskId: "risk-2",
-              description: "Create a maintenance schedule and assign responsible personnel.",
-              priority: "Medium",
-              estimatedCost: "Low",
-              timeframe: "1-2 months",
+              description: "Erstellen Sie einen Wartungsplan und weisen Sie verantwortliches Personal zu.",
+              priority: "Mittel",
+              estimatedCost: "Niedrig",
+              timeframe: "1-2 Monate",
               customerResponse: {
                 followed: null,
                 explanation: "",
@@ -144,7 +145,7 @@ export default function CaseFullView() {
   }
 
   if (!caseData) {
-    return <div className="p-8">Case not found</div>
+    return <div className="p-8">Fall nicht gefunden</div>
   }
 
   // If this is a customer view, show the simplified customer interface
@@ -158,9 +159,9 @@ export default function CaseFullView() {
             className="px-3 py-1 bg-primary text-primary-foreground rounded-md text-xs flex items-center"
           >
             <Users className="h-3 w-3 mr-1" />
-            Switch to Employee View
+            Zur Mitarbeiteransicht wechseln
           </button>
-          <p className="text-xs text-muted-foreground mt-1">Demo Mode: Customer Report View</p>
+          <p className="text-xs text-muted-foreground mt-1">Demo-Modus: Kundenberichtsansicht</p>
         </div>
 
         <CustomerView
@@ -168,7 +169,7 @@ export default function CaseFullView() {
           onSubmit={(updatedCase) => {
             updateCaseData(updatedCase)
             // In a real app, you would redirect or show a success message
-            alert("Thank you for your submission! Your responses have been recorded.")
+            alert("Vielen Dank für Ihre Einreichung! Ihre Antworten wurden erfasst.")
           }}
         />
       </div>
@@ -184,16 +185,16 @@ export default function CaseFullView() {
           className="px-3 py-1 bg-blue-600 text-white rounded-md text-xs flex items-center"
         >
           <Users className="h-3 w-3 mr-1" />
-          Preview Customer View
+          Kundenansicht anzeigen
         </button>
-        <p className="text-xs text-muted-foreground mt-1">See what customers will respond to</p>
+        <p className="text-xs text-muted-foreground mt-1">Sehen Sie, worauf Kunden antworten werden</p>
       </div>
 
       {/* Back button */}
       <div className="mb-4">
         <Link href="/cases" className="inline-flex items-center text-sm text-primary hover:underline">
           <ArrowLeft className="h-4 w-4 mr-1" />
-          Back to Cases
+          Zurück zur Fallübersicht
         </Link>
       </div>
 
@@ -205,7 +206,7 @@ export default function CaseFullView() {
       {/* Location and Customer Info */}
       <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
         <div className="bg-muted/30 px-4 py-3 border-b border-border">
-          <h2 className="font-medium">Case Information</h2>
+          <h2 className="font-medium">Fallinformationen</h2>
         </div>
         <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-card p-4 rounded-lg flex items-start">
@@ -213,7 +214,7 @@ export default function CaseFullView() {
               <MapPin className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Location</p>
+              <p className="text-sm font-medium text-muted-foreground">Standort</p>
               <Link
                 href={`/customers/${caseData.customerId}/locations/${caseData.locationId}`}
                 className="text-primary hover:underline font-medium"
@@ -229,7 +230,7 @@ export default function CaseFullView() {
               <Building className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Customer</p>
+              <p className="text-sm font-medium text-muted-foreground">Kunde</p>
               <Link href={`/customers/${caseData.customerId}`} className="text-primary hover:underline font-medium">
                 {caseData.customer?.name}
               </Link>
@@ -245,7 +246,7 @@ export default function CaseFullView() {
           <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
             <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
               <Clipboard className="h-5 w-5 mr-2 text-muted-foreground" />
-              <h2 className="font-medium">Case Details</h2>
+              <h2 className="font-medium">Falldetails</h2>
             </div>
             <div className="p-4">
               <CaseDetails caseData={caseData} isEditing={false} />
@@ -257,13 +258,13 @@ export default function CaseFullView() {
             <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center justify-between">
               <div className="flex items-center">
                 <FileText className="h-5 w-5 mr-2 text-muted-foreground" />
-                <h2 className="font-medium">Risk Assessment Report</h2>
+                <h2 className="font-medium">Risikobewertungsbericht</h2>
               </div>
               <Link
                 href={`/cases/${caseId}/report`}
                 className="inline-flex items-center text-sm text-primary hover:underline"
               >
-                View Full Report
+                Vollständigen Bericht anzeigen
                 <ExternalLink className="h-3 w-3 ml-1" />
               </Link>
             </div>
@@ -285,7 +286,7 @@ export default function CaseFullView() {
           <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
             <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
               <Paperclip className="h-5 w-5 mr-2 text-muted-foreground" />
-              <h2 className="font-medium">Attachments</h2>
+              <h2 className="font-medium">Anhänge</h2>
             </div>
             <div className="p-4">
               <AttachmentsSection
@@ -307,7 +308,7 @@ export default function CaseFullView() {
           <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
             <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-muted-foreground" />
-              <h2 className="font-medium">Actions</h2>
+              <h2 className="font-medium">Aktionen</h2>
             </div>
             <div className="p-4">
               <ActionButtons
@@ -323,7 +324,7 @@ export default function CaseFullView() {
                         status: newStatus,
                         timestamp: now,
                         updatedBy: "emp-456", // In a real app, this would be the current user
-                        notes: `Status changed to ${newStatus}`,
+                        notes: `Status geändert zu ${newStatus === "Closed" ? "Abgeschlossen" : newStatus}`,
                       },
                     ],
                   })
@@ -336,7 +337,7 @@ export default function CaseFullView() {
           <div className="bg-background rounded-xl shadow-md border border-border overflow-hidden">
             <div className="bg-muted/30 px-4 py-3 border-b border-border flex items-center">
               <Clock className="h-5 w-5 mr-2 text-muted-foreground" />
-              <h2 className="font-medium">Status History</h2>
+              <h2 className="font-medium">Statusverlauf</h2>
             </div>
             <div className="p-4">
               <StatusHistory history={caseData.statusHistory} />
