@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Users, Briefcase, Settings, Bell, Plus, MapPin, LogOut } from "lucide-react"
+import { Home, Users, Briefcase, Bell, Plus, MapPin, LogOut } from "lucide-react"
 import { useAuth } from "@/lib/auth/AuthContext"
 
 export default function Sidebar() {
@@ -14,7 +14,6 @@ export default function Sidebar() {
     { href: "/customers", label: "Customers", icon: Users },
     { href: "/cases", label: "Cases", icon: Briefcase },
     { href: "/locations", label: "Locations", icon: MapPin },
-    { href: "/settings", label: "Settings", icon: Settings },
     { href: "/notifications", label: "Notifications", icon: Bell },
   ]
 
