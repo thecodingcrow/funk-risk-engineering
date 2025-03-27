@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { MapPin, Building, Search, X } from "lucide-react"
+import { MapPin, Building, Search, X, Plus, Filter } from "lucide-react"
 import { cases, customers, locations, getCustomerById, getLocationById } from "@/lib/data"
 
 export default function Cases() {
@@ -14,7 +14,9 @@ export default function Cases() {
   const [filteredCases, setFilteredCases] = useState(cases)
   const [customerFilter, setCustomerFilter] = useState<number | null>(initialCustomerId)
   const [locationFilter, setLocationFilter] = useState<string | null>(initialLocationId)
+  const [statusFilter, setStatusFilter] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showFilters, setShowFilters] = useState(false)
 
   // Apply filters
   useEffect(() => {
@@ -30,6 +32,11 @@ export default function Cases() {
       result = result.filter((caseItem) => caseItem.locationId === locationFilter)
     }
 
+    // Filter by status
+    if (statusFilter) {
+      result = result.filter((caseItem) => caseItem.status === statusFilter)
+    }
+
     // Filter by search term
     if (searchTerm) {
       const term = searchTerm.toLowerCase()
@@ -42,13 +49,28 @@ export default function Cases() {
     }
 
     setFilteredCases(result)
-  }, [customerFilter, locationFilter, searchTerm])
+  }, [customerFilter, locationFilter, statusFilter, searchTerm])
 
   // Clear all filters
   const clearFilters = () => {
     setCustomerFilter(null)
     setLocationFilter(null)
+    setStatusFilter(null)
     setSearchTerm("")
+  }
+
+  // Get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Open":
+        return "bg-blue-500 text-white"
+      case "In Progress":
+        return "bg-yellow-500 text-black"
+      case "Closed":
+        return "bg-green-500 text-white"
+      default:
+        return "bg-gray-500 text-white"
+    }
   }
 
   return (
@@ -58,8 +80,9 @@ export default function Cases() {
 
         <Link
           href="/cases/new"
-          className="mt-2 sm:mt-0 px-4 py-2 bg-primary text-primary-foreground rounded-custom hover:bg-primary/90 transition-colors"
+          className="mt-2 sm:mt-0 px-4 py-2 bg-primary text-primary-foreground rounded-custom hover:bg-primary/90 transition-colors flex items-center"
         >
+          <Plus className="h-4 w-4 mr-1" />
           Create New Case
         </Link>
       </div>
@@ -83,54 +106,85 @@ export default function Cases() {
             </div>
           </div>
 
-          <div>
-            <label htmlFor="customerFilter" className="block text-sm font-medium mb-1">
-              Customer
-            </label>
-            <select
-              id="customerFilter"
-              value={customerFilter || ""}
-              onChange={(e) => setCustomerFilter(e.target.value ? Number(e.target.value) : null)}
-              className="w-full p-2 rounded-custom border border-input bg-background"
-            >
-              <option value="">All Customers</option>
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="locationFilter" className="block text-sm font-medium mb-1">
-              Location
-            </label>
-            <select
-              id="locationFilter"
-              value={locationFilter || ""}
-              onChange={(e) => setLocationFilter(e.target.value || null)}
-              className="w-full p-2 rounded-custom border border-input bg-background"
-            >
-              <option value="">All Locations</option>
-              {locations.map((location) => (
-                <option key={location.id} value={location.id}>
-                  {location.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <button
-            onClick={clearFilters}
-            className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors"
+            onClick={() => setShowFilters(!showFilters)}
+            className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors flex items-center"
           >
-            <X className="h-4 w-4 mr-1 inline-block" />
-            Clear Filters
+            <Filter className="h-4 w-4 mr-1" />
+            {showFilters ? "Hide Filters" : "Show Filters"}
           </button>
+
+          {(customerFilter || locationFilter || statusFilter || searchTerm) && (
+            <button
+              onClick={clearFilters}
+              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-custom hover:bg-secondary/90 transition-colors"
+            >
+              <X className="h-4 w-4 mr-1 inline-block" />
+              Clear Filters
+            </button>
+          )}
         </div>
 
-        {(customerFilter || locationFilter || searchTerm) && (
+        {showFilters && (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label htmlFor="customerFilter" className="block text-sm font-medium mb-1">
+                Customer
+              </label>
+              <select
+                id="customerFilter"
+                value={customerFilter || ""}
+                onChange={(e) => setCustomerFilter(e.target.value ? Number(e.target.value) : null)}
+                className="w-full p-2 rounded-custom border border-input bg-background"
+              >
+                <option value="">All Customers</option>
+                {customers.map((customer) => (
+                  <option key={customer.id} value={customer.id}>
+                    {customer.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="locationFilter" className="block text-sm font-medium mb-1">
+                Location
+              </label>
+              <select
+                id="locationFilter"
+                value={locationFilter || ""}
+                onChange={(e) => setLocationFilter(e.target.value || null)}
+                className="w-full p-2 rounded-custom border border-input bg-background"
+              >
+                <option value="">All Locations</option>
+                {locations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="statusFilter" className="block text-sm font-medium mb-1">
+                Status
+              </label>
+              <select
+                id="statusFilter"
+                value={statusFilter || ""}
+                onChange={(e) => setStatusFilter(e.target.value || null)}
+                className="w-full p-2 rounded-custom border border-input bg-background"
+              >
+                <option value="">All Statuses</option>
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {(customerFilter || locationFilter || statusFilter || searchTerm) && (
           <div className="mt-2 text-sm">
             <span className="text-muted-foreground">Showing </span>
             <span className="font-medium">{filteredCases.length}</span>
@@ -158,7 +212,7 @@ export default function Cases() {
               <Link
                 key={caseItem.id}
                 href={`/cases/${caseItem.id}/full-view`}
-                className="block bg-card p-4 rounded-custom shadow hover:shadow-md transition-shadow"
+                className="block bg-card p-4 rounded-custom shadow hover:shadow-md transition-shadow border border-border/50 hover:border-border"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between">
                   <div className="flex-grow">
@@ -176,15 +230,7 @@ export default function Cases() {
                   </div>
 
                   <div className="mt-2 sm:mt-0 flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                    <div
-                      className={`status-pill ${
-                        caseItem.status === "Open"
-                          ? "status-pill-open"
-                          : caseItem.status === "In Progress"
-                            ? "status-pill-in-progress"
-                            : "status-pill-closed"
-                      }`}
-                    >
+                    <div className={`px-3 py-1 text-xs rounded-full font-medium ${getStatusColor(caseItem.status)}`}>
                       {caseItem.status}
                     </div>
                     <span className="text-xs text-muted-foreground whitespace-nowrap">
